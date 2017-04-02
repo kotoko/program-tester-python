@@ -14,7 +14,7 @@ wyjście diagnostyczne jest ignorowane.
 Testy należy zdobyć samodzielnie :)
 
 ## TODO
-* przetłumaczyć skrypt na język angielski
-* skrócić za długie linie w kodzie
-* nie uruchamiać programu drugi raz podczas mierzenia czasu
-* zmierzyć zużytą pamięć przez program
+- [ ] przetłumaczyć skrypt na język angielski
+- [ ] skrócić za długie linie w kodzie
+- [ ] nie uruchamiać programu drugi raz podczas mierzenia czasu
+- [ ] zmierzyć zużytą pamięć przez program
