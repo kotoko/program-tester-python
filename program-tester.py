@@ -14,9 +14,7 @@ class Colors(object):
 	green = "\033[1m\033[92m"
 	yellow = "\033[1m\033[93m"
 	red = "\033[1m\033[91m"
-
 	reset = "\033[1m\033[0m"
-
 	ok = green
 	completed = yellow
 	wrong = red
@@ -27,9 +25,7 @@ class Colors(object):
 		cls.green = ""
 		cls.yellow = ""
 		cls.red = ""
-
 		cls.reset = ""
-
 		cls.ok = ""
 		cls.completed = ""
 		cls.wrong = ""
@@ -38,25 +34,15 @@ class Colors(object):
 
 class Options(object):
 	program = ''
-
 	tests_folder = ''
-
 	tests_list = []
-
 	force_colors = 0
-
 	show_time = 1
-
 	show_comparision = 1
-
 	show_summary = 1
-
 	show_test_ok = 1
-
 	show_test_wrong = 1
-
 	show_test_completed = 1
-
 	show_test_error = 1
 
 
