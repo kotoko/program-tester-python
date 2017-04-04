@@ -15,6 +15,5 @@ Testy należy zdobyć samodzielnie :)
 
 ## TODO
 - [ ] przetłumaczyć skrypt na język angielski
-- [x] skrócić za długie linie w kodzie
 - [ ] nie uruchamiać programu drugi raz podczas mierzenia czasu
 - [ ] zmierzyć zużytą pamięć przez program
