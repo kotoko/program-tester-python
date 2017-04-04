@@ -86,7 +86,13 @@ class MultilineFormatter(argparse.HelpFormatter):
 		multiline_text = ''
 
 		for paragraph in paragraphs:
-			formatted_paragraph = textwrap.fill(paragraph, width, initial_indent=indent, subsequent_indent=indent) + '\n'
+			formatted_paragraph = textwrap.fill(
+				paragraph,
+				width,
+				initial_indent=indent,
+				subsequent_indent=indent
+			) + '\n'
+
 			multiline_text = multiline_text + formatted_paragraph
 
 		return multiline_text
@@ -99,36 +105,102 @@ def check_terminal():
 
 
 def read_arguments():
-	parser = argparse.ArgumentParser(__file__, formatter_class=MultilineFormatter,
-									 description="Tester programow. Skrypt uruchamia program na serii testow, przekierowuje wejscie programu i sprawdza czy wyjscie programu jest takie samo jak wyjscie testu. Mozliwe odpowiedzi to: OK, SKONCZONE, ZLE, BLAD WYKONANIA.|n |n OK - program zakonczyl sie i odpowiedz sie zgadza |n SKONCZONE - program zakonczyl sie, ale nie ma z czym porownac odpowiedzi |n ZLE - program zakonczyl sie, ale dal inna odpowiedz |n BLAD WYKONANIA - program zwrocil kod wyjscia rozny od zera")
+	parser = argparse.ArgumentParser(
+		__file__,
+		formatter_class=MultilineFormatter,
+		description="Tester programow. Skrypt uruchamia program na serii testow, przekierowuje wejscie \
+		programu i sprawdza czy wyjscie programu jest takie samo jak wyjscie testu. Mozliwe odpowiedzi \
+		to: OK, SKONCZONE, ZLE, BLAD WYKONANIA.|n |n OK - program zakonczyl sie i odpowiedz sie zgadza \
+		|n SKONCZONE - program zakonczyl sie, ale nie ma z czym porownac odpowiedzi |n ZLE - program \
+		zakonczyl sie, ale dal inna odpowiedz |n BLAD WYKONANIA - program zwrocil kod wyjscia rozny od zera"
+	)
 
-	parser.add_argument("PROGRAM", type=str, help="sciezka do programu wykonywalnego")
+	parser.add_argument(
+		"PROGRAM",
+		type=str,
+		help="sciezka do programu wykonywalnego"
+	)
 
-	parser.add_argument("TESTY", type=str, help="sciezka do folderu z testami (zawiera pliki *.in oraz *.out)")
+	parser.add_argument(
+		"TESTY",
+		type=str,
+		help="sciezka do folderu z testami (zawiera pliki *.in oraz *.out)"
+	)
 
-	parser.add_argument("--test", type=str, action='append', help="nazwa testu bez sufiksu .in; program jest testowany na konkretnym tescie; parametr moze wystapic wiecej niz raz")
+	parser.add_argument(
+		"--test",
+		type=str,
+		action='append',
+		help="nazwa testu bez sufiksu .in; program jest testowany na konkretnym tescie; parametr \
+		moze wystapic wiecej niz raz"
+	)
 
-	parser.add_argument("--portable", action="store_true", help="alias dla -TC")
+	parser.add_argument(
+		"--portable",
+		action="store_true",
+		help="alias dla -TC"
+	)
 
-	parser.add_argument("--quiet", action="store_true", help="alias dla -O")
+	parser.add_argument(
+		"--quiet",
+		action="store_true",
+		help="alias dla -O"
+	)
 
-	parser.add_argument("-T", "--no-time", action="store_true", help="nie wyswietlaj czasu dzialania programu")
+	parser.add_argument(
+		"-T",
+		"--no-time",
+		action="store_true",
+		help="nie wyswietlaj czasu dzialania programu"
+	)
 
-	parser.add_argument("-C", "--no-compare", action="store_true", help="nie wyswietlaj porownania odpowiedzi blednej i poprawnej")
+	parser.add_argument(
+		"-C",
+		"--no-compare",
+		action="store_true",
+		help="nie wyswietlaj porownania odpowiedzi blednej i poprawnej"
+	)
 
-	parser.add_argument("-O", "--no-ok", action="store_true", help="nie wyswietlaj testow, ktore program przeszedl poprawnie")
+	parser.add_argument(
+		"-O",
+		"--no-ok",
+		action="store_true",
+		help="nie wyswietlaj testow, ktore program przeszedl poprawnie"
+	)
 
-	parser.add_argument("-E", "--no-error", action="store_true", help="nie wyswietlaj testow, ktorych program nie przeszedl poprawnie")
+	parser.add_argument(
+		"-E",
+		"--no-error",
+		action="store_true",
+		help="nie wyswietlaj testow, ktorych program nie przeszedl poprawnie"
+	)
 
 	color = parser.add_mutually_exclusive_group()
 
-	color.add_argument("--color", action="store_true", help="wymus wlaczenie kolorow")
+	color.add_argument(
+		"--color",
+		action="store_true",
+		help="wymus wlaczenie kolorow"
+	)
 
-	color.add_argument("--no-color", action="store_true", help="wymus wylaczenie kolorow")
+	color.add_argument(
+		"--no-color",
+		action="store_true",
+		help="wymus wylaczenie kolorow"
+	)
 
-	parser.add_argument("--no-summary", action="store_true", help="nie wyswietlaj podsumowania")
+	parser.add_argument(
+		"--no-summary",
+		action="store_true",
+		help="nie wyswietlaj podsumowania"
+	)
 
-	parser.add_argument("-V", "--version", action="version", version=__version__)
+	parser.add_argument(
+		"-V",
+		"--version",
+		action="version",
+		version=__version__
+	)
 
 	return parser.parse_args()
 
@@ -249,7 +321,13 @@ def make_prefix(text, length):
 
 def run_test(test_name, test_in, test_out, results):
 	with open(test_in, 'rt') as file_in, tempfile.SpooledTemporaryFile(mode='r+t') as file_out:
-		process = subprocess.Popen(Options.program, stdin=file_in, stdout=file_out, stderr=subprocess.DEVNULL, shell=False)
+		process = subprocess.Popen(
+			Options.program,
+			stdin=file_in,
+			stdout=file_out,
+			stderr=subprocess.DEVNULL,
+			shell=False
+		)
 		process.wait()
 
 		# TODO - run only once program
@@ -262,7 +340,7 @@ def run_test(test_name, test_in, test_out, results):
 					stmt="subprocess.check_call(PROGRAM, stdin=file_in, stdout=subprocess.DEVNULL,\
 					stderr=subprocess.DEVNULL, shell=False)",
 					setup="import subprocess; import os; PROGRAM='" + Options.program
-						  + "'; file_in = open( '" + test_in + "' , 'r');",
+					+ "'; file_in = open( '" + test_in + "' , 'r');",
 					number=1
 				)
 			except:
