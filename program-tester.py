@@ -6,6 +6,7 @@ import tempfile
 import subprocess
 import timeit
 import textwrap
+import gettext
 
 __version__ = '0.3'
 
