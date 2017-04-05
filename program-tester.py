@@ -121,11 +121,12 @@ def read_arguments():
 		__file__,
 		add_help=False,
 		formatter_class=MultilineFormatter,
-		description=_("Tester programow. Skrypt uruchamia program na serii testow, przekierowuje wejscie \
-		programu i sprawdza czy wyjscie programu jest takie samo jak wyjscie testu. Mozliwe odpowiedzi \
-		to: OK, SKONCZONE, ZLE, BLAD WYKONANIA.|n |n OK - program zakonczyl sie i odpowiedz sie zgadza \
-		|n SKONCZONE - program zakonczyl sie, ale nie ma z czym porownac odpowiedzi |n ZLE - program \
-		zakonczyl sie, ale dal inna odpowiedz |n BLAD WYKONANIA - program zwrocil kod wyjscia rozny od zera")
+		description=_("Program tester. Script runs program on multiple tests and checks \
+		program's outputs. Possible responses: OK, COMPLETED, WRONG, ERROR. |n |n \
+		OK - program's completed with correct output |n \
+		COMPLETED - program's completed, but there is missing *.out file |n \
+		WRONG - program's completed, but the output is different than *.out file |n \
+		ERROR - program's completed with return code other than 0")
 	)
 
 	parser.add_argument(
@@ -133,67 +134,67 @@ def read_arguments():
 		"--help",
 		action="help",
 		default=argparse.SUPPRESS,
-		help=_("show help message and exit")
+		help=_("show help message")
 	)
 
 	parser.add_argument(
 		"PROGRAM",
 		type=str,
-		help=_("sciezka do programu wykonywalnego")
+		help=_("path to executable binary")
 	)
 
 	parser.add_argument(
-		"TESTY",
+		"TESTS",
 		type=str,
-		help=_("sciezka do folderu z testami (zawiera pliki *.in oraz *.out)")
+		help=_("path to folder with tests (contains files *.in and *.out)")
 	)
 
 	parser.add_argument(
 		"--test",
 		type=str,
 		action='append',
-		help=_("nazwa testu bez sufiksu .in; program jest testowany na konkretnym tescie; parametr \
-		moze wystapic wiecej niz raz")
+		help=_("test's name without suffix .in; program is running only on target test; \
+		parameter can be specified multiple times")
 	)
 
 	parser.add_argument(
 		"--portable",
 		action="store_true",
-		help=_("alias dla -TC")
+		help=_("alias for -TC")
 	)
 
 	parser.add_argument(
 		"--quiet",
 		action="store_true",
-		help=_("alias dla -O")
+		help=_("alias for -O")
 	)
 
 	parser.add_argument(
 		"-T",
 		"--no-time",
 		action="store_true",
-		help=_("nie wyswietlaj czasu dzialania programu")
+		help=_("do not show execution time")
 	)
 
 	parser.add_argument(
 		"-C",
 		"--no-compare",
 		action="store_true",
-		help=_("nie wyswietlaj porownania odpowiedzi blednej i poprawnej")
+		help=_("do not show comparison of program's output and correct answer")
 	)
 
 	parser.add_argument(
 		"-O",
 		"--no-ok",
 		action="store_true",
-		help=_("nie wyswietlaj testow, ktore program przeszedl poprawnie")
+		help=_("do not show tests passed correctly")
 	)
 
 	parser.add_argument(
 		"-E",
 		"--no-error",
 		action="store_true",
-		help=_("nie wyswietlaj testow, ktorych program nie przeszedl poprawnie")
+		help=_("do not show tests passed incorrectly")
 	)
 
 	color = parser.add_mutually_exclusive_group()
@@ -201,26 +202,26 @@ def read_arguments():
 	color.add_argument(
 		"--color",
 		action="store_true",
-		help=_("wymus wlaczenie kolorow")
+		help=_("force color even when stdout is not a tty")
 	)
 
 	color.add_argument(
 		"--no-color",
 		action="store_true",
-		help=_("wymus wylaczenie kolorow")
+		help=_("turn off color")
 	)
 
 	parser.add_argument(
 		"--no-summary",
 		action="store_true",
-		help=_("nie wyswietlaj podsumowania")
+		help=_("do not show summary")
 	)
 
 	parser.add_argument(
 		"-V",
 		"--version",
 		action="version",
-		help=_("show program's version number and exit"),
+		help=_("show program's version number"),
 		version=__version__
 	)
 
@@ -229,7 +230,7 @@ def read_arguments():
 
 def parse_arguments(arg):
 	Options.program = os.path.abspath(arg.PROGRAM)
-	Options.tests_folder = os.path.abspath(arg.TESTY)
+	Options.tests_folder = os.path.abspath(arg.TESTS)
 
 	if arg.test:
 		Options.test_mode = 1
@@ -270,30 +271,30 @@ def parse_arguments(arg):
 
 def check_files():
 	if not os.path.isfile(Options.program):
-		print(_("Plik wykonywalny nie istnieje") + ":\n" + Options.program + "\n")
+		print(_("Executable binary does not exist") + ":\n" + Options.program + "\n")
 		raise FileNotFoundError
 
 	if not os.path.exists(Options.tests_folder):
-		print(_("Folder z testami nie istnieje") + ":\n" + Options.tests_folder + "\n")
+		print(_("Folder with tests does not exist") + ":\n" + Options.tests_folder + "\n")
 		raise FileNotFoundError
 
 
 def print_tests_summary(results):
 	print("\n\n-----")
 
-	print(_("Poprawne") + ": " + Colors.ok + str(results.get_ok()) + Colors.reset)
+	print(_("Correct") + ": " + Colors.ok + str(results.get_ok()) + Colors.reset)
 
 	if results.get_completed() > 0:
-		print(_("Skonczone") + ": " + Colors.completed + str(results.get_completed()) + Colors.reset)
+		print(_("Completed") + ": " + Colors.completed + str(results.get_completed()) + Colors.reset)
 
-	print(_("Niepoprawne") + ": " + Colors.wrong + str(results.get_wrong()) + Colors.reset)
+	print(_("Wrong") + ": " + Colors.wrong + str(results.get_wrong()) + Colors.reset)
 
-	print(_("Bledy wykonania") + ": " + Colors.error + str(results.get_error()) + Colors.reset)
+	print(_("Error") + ": " + Colors.error + str(results.get_error()) + Colors.reset)
 
 
 def print_time(time):
 	if Options.show_time:
-		print(_("czas") + ": {:.2f}\n".format(time))
+		print(_("time") + ": {:.2f}\n".format(time))
 
 
 def print_test_result(test_name, status, time=-1, comparison=''):
@@ -308,20 +309,20 @@ def print_test_result(test_name, status, time=-1, comparison=''):
 	# wrong
 	elif status == 1:
 		if Options.show_test_wrong:
-			print(prefix + test_name + separator + Colors.wrong + _("ZLE") + Colors.reset)
+			print(prefix + test_name + separator + Colors.wrong + _("WRONG") + Colors.reset)
 			if Options.show_comparision:
 				print(comparison)
-				print("(" + _("wynik programu") + "  |  " + _("prawidlowy wynik") + ")")
+				print("(" + _("program's output") + "  |  " + _("correct answer") + ")")
 			print_time(time)
 	# completed
 	elif status == 2:
 		if Options.show_test_completed:
-			print(prefix + test_name + separator + Colors.completed + _("SKONCZONY") + Colors.reset)
+			print(prefix + test_name + separator + Colors.completed + _("COMPLETED") + Colors.reset)
 			print_time(time)
 	# error
 	elif status == 3:
 		if Options.show_test_error:
-			print(prefix + test_name + separator + Colors.error + _("BLAD WYKONANIA") + Colors.reset)
+			print(prefix + test_name + separator + Colors.error + _("ERROR") + Colors.reset)
 			print_time(time)
 	else:
 		pass
@@ -464,11 +465,11 @@ if __name__ == "__main__":
 		main()
 	else:
 		print(
-			_("Wersja pythona") + ":  "
+			_("Python's version") + ":  "
 			+ str(sys.version_info[0]) + "." + str(sys.version_info[1])
 		)
 		print(
-			_("Wymagana wersja pythona") + ":  >="
+			_("Required python's version") + ":  >="
 			+ str(minimum_version[0]) + "." + str(minimum_version[1])
 		)
 
