@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: program-tester\n"
-"POT-Creation-Date: 2017-04-05 10:28+0200\n"
-"PO-Revision-Date: 2017-04-05 10:32+0200\n"
+"POT-Creation-Date: 2017-04-05 20:50+0200\n"
+"PO-Revision-Date: 2017-04-05 20:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl_PL\n"
@@ -17,142 +17,242 @@ msgstr ""
 
 #: program-tester.py:124
 msgid ""
-"Tester programow. Skrypt uruchamia program na serii testow, przekierowuje "
-"wejscie \t\tprogramu i sprawdza czy wyjscie programu jest takie samo jak "
-"wyjscie testu. Mozliwe odpowiedzi \t\tto: OK, SKONCZONE, ZLE, BLAD "
-"WYKONANIA.|n |n OK - program zakonczyl sie i odpowiedz sie zgadza \t\t|n "
-"SKONCZONE - program zakonczyl sie, ale nie ma z czym porownac odpowiedzi |n "
-"ZLE - program \t\tzakonczyl sie, ale dal inna odpowiedz |n BLAD WYKONANIA - "
-"program zwrocil kod wyjscia rozny od zera"
+"Program tester. Script runs program on multiple tests and checks \t"
+"\tprogram's outputs. Possible responses: OK, COMPLETED, WRONG, ERROR. |n |n "
+"\t\tOK - program's completed with correct output |n \t\tCOMPLETED - "
+"program's completed, but there is missing *.out file |n \t\tWRONG - "
+"program's completed, but the output is different than *.out file |n \t"
+"\tERROR - program's completed with return code other than 0"
 msgstr ""
-"Tester programów. Skrypt uruchamia program na serii testów, przekierowuje "
-"wejście programu i sprawdza czy wyjście programu jest takie samo jak "
-"oczekiwane wyjście testu. Możliwe odpowiedzi to: OK, SKOŃCZONE, ŹLE, BŁĄD "
-"WYKONANIA.|n |n OK - program zakończył się i odpowiedz się zgadza|n "
-"SKOŃCZONE - program zakończył się, ale nie ma z czym porównać odpowiedzi |n "
-"ŹLE - program zakończył się, ale dał inna odpowiedź |n BŁĄD WYKONANIA - "
-"program zwrócił kod wyjścia różny od zera"
+"Tester programów. Skrypt uruchamia program na serii testów i sprawdza "
+"standardowe wyjście. Możliwe odpowiedzi to: OK, SKOŃCZONE, ŹLE, BŁĄD "
+"WYKONANIA. |n |n OK - program zakończył się i odpowiedz się zgadza |n "
+"SKOŃCZONE - program zakończył się, ale nie istnieje plik *.out |n ŹLE - "
+"program zakończył się, ale dał inną odpowiedź |n BŁĄD WYKONANIA - program "
+"zwrócił kod wyjścia różny od zera"
 
-#: program-tester.py:136
-msgid "show help message and exit"
-msgstr ""
+#: program-tester.py:137
+msgid "show help message"
+msgstr "wyświetl pomoc"
 
-#: program-tester.py:142
-msgid "sciezka do programu wykonywalnego"
+#: program-tester.py:143
+msgid "path to executable binary"
 msgstr "ścieżka do programu wykonywalnego"
 
-#: program-tester.py:148
-msgid "sciezka do folderu z testami (zawiera pliki *.in oraz *.out)"
+#: program-tester.py:149
+msgid "path to folder with tests (contains files *.in and *.out)"
 msgstr "ścieżka do folderu z testami (zawiera pliki *.in oraz *.out)"
 
-#: program-tester.py:155
+#: program-tester.py:156
 msgid ""
-"nazwa testu bez sufiksu .in; program jest testowany na konkretnym tescie; "
-"parametr \t\tmoze wystapic wiecej niz raz"
+"test's name without suffix .in; program is running only on target test; \t"
+"\tparameter can be specified multiple times"
 msgstr ""
 "nazwa testu bez sufiksu .in; program jest testowany na konkretnym teście; "
 "parametr może wystąpić więcej niż raz"
 
-#: program-tester.py:162
-msgid "alias dla -TC"
+#: program-tester.py:163
+msgid "alias for -TC"
 msgstr "alias dla -TC"
 
-#: program-tester.py:168
-msgid "alias dla -O"
+#: program-tester.py:169
+msgid "alias for -O"
 msgstr "alias dla -O"
 
-#: program-tester.py:175
-msgid "nie wyswietlaj czasu dzialania programu"
+#: program-tester.py:176
+msgid "do not show execution time"
 msgstr "nie wyświetlaj czasu działania programu"
 
-#: program-tester.py:182
-msgid "nie wyswietlaj porownania odpowiedzi blednej i poprawnej"
+#: program-tester.py:183
+msgid "do not show comparison of program's output and correct answer"
 msgstr "nie wyświetlaj porównania odpowiedzi błędnej i poprawnej"
 
-#: program-tester.py:189
-msgid "nie wyswietlaj testow, ktore program przeszedl poprawnie"
+#: program-tester.py:190
+msgid "do not show tests passed correctly"
 msgstr "nie wyświetlaj testów, które program przeszedł poprawnie"
 
-#: program-tester.py:196
-msgid "nie wyswietlaj testow, ktorych program nie przeszedl poprawnie"
+#: program-tester.py:197
+msgid "do not show tests passed incorrectly"
 msgstr "nie wyświetlaj testów, których program nie przeszedł poprawnie"
 
-#: program-tester.py:204
-msgid "wymus wlaczenie kolorow"
+#: program-tester.py:205
+msgid "force color even when stdout is not a tty"
 msgstr "wymuś włączenie kolorów"
 
-#: program-tester.py:210
-msgid "wymus wylaczenie kolorow"
-msgstr "wymuś wyłączenie kolorów"
+#: program-tester.py:211
+msgid "turn off color"
+msgstr "wyłącz kolory"
 
-#: program-tester.py:216
-msgid "nie wyswietlaj podsumowania"
+#: program-tester.py:217
+msgid "do not show summary"
 msgstr "nie wyświetlaj podsumowania"
 
-#: program-tester.py:223
-msgid "show program's version number and exit"
-msgstr "wypisz wersję programu"
+#: program-tester.py:224
+msgid "show script's version number"
+msgstr "wyświetl wersję skryptu"
 
-#: program-tester.py:273
-msgid "Plik wykonywalny nie istnieje"
+#: program-tester.py:274
+msgid "Executable binary does not exist"
 msgstr "Plik wykonywalny nie istnieje"
 
-#: program-tester.py:277
-msgid "Folder z testami nie istnieje"
+#: program-tester.py:278
+msgid "Folder with tests does not exist"
 msgstr "Folder z testami nie istnieje"
 
-#: program-tester.py:284
-msgid "Poprawne"
+#: program-tester.py:285
+msgid "Correct"
 msgstr "Poprawne"
 
-#: program-tester.py:287
-msgid "Skonczone"
+#: program-tester.py:288
+msgid "Completed"
 msgstr "Skończone"
 
-#: program-tester.py:289
-msgid "Niepoprawne"
+#: program-tester.py:290
+msgid "Wrong"
 msgstr "Niepoprawne"
 
-#: program-tester.py:291
-msgid "Bledy wykonania"
+#: program-tester.py:292
+msgid "Error"
 msgstr "Błędy wykonania"
 
-#: program-tester.py:296
-msgid "czas"
+#: program-tester.py:297
+msgid "time"
 msgstr "czas"
 
-#: program-tester.py:301
+#: program-tester.py:302
 msgid "Test"
 msgstr "Test"
 
-#: program-tester.py:306
+#: program-tester.py:307
 msgid "OK"
 msgstr "OK"
 
-#: program-tester.py:311
-msgid "ZLE"
+#: program-tester.py:312
+msgid "WRONG"
 msgstr "ŹLE"
 
-#: program-tester.py:314
-msgid "wynik programu"
-msgstr "wynik programu"
+#: program-tester.py:315
+msgid "program's output"
+msgstr "wyjście programu"
 
-#: program-tester.py:314
-msgid "prawidlowy wynik"
-msgstr "prawidłowy wynik"
+#: program-tester.py:315
+msgid "correct answer"
+msgstr "poprawne wyjście"
 
-#: program-tester.py:319
-msgid "SKONCZONY"
+#: program-tester.py:320
+msgid "COMPLETED"
 msgstr "SKOŃCZONY"
 
-#: program-tester.py:324
-msgid "BLAD WYKONANIA"
+#: program-tester.py:325
+msgid "ERROR"
 msgstr "BŁĄD WYKONANIA"
 
-#: program-tester.py:467
-msgid "Wersja pythona"
+#: program-tester.py:468
+msgid "Python's version"
 msgstr "Wersja pythona"
 
-#: program-tester.py:471
-msgid "Wymagana wersja pythona"
+#: program-tester.py:472
+msgid "Required python's version"
 msgstr "Wymagana wersja pythona"
+
+#~ msgid ""
+#~ "Tester programow. Skrypt uruchamia program na serii testow, przekierowuje "
+#~ "wejscie \t\tprogramu i sprawdza czy wyjscie programu jest takie samo jak "
+#~ "wyjscie testu. Mozliwe odpowiedzi \t\tto: OK, SKONCZONE, ZLE, BLAD "
+#~ "WYKONANIA.|n |n OK - program zakonczyl sie i odpowiedz sie zgadza \t\t|n "
+#~ "SKONCZONE - program zakonczyl sie, ale nie ma z czym porownac odpowiedzi |"
+#~ "n ZLE - program \t\tzakonczyl sie, ale dal inna odpowiedz |n BLAD "
+#~ "WYKONANIA - program zwrocil kod wyjscia rozny od zera"
+#~ msgstr ""
+#~ "Tester programów. Skrypt uruchamia program na serii testów, przekierowuje "
+#~ "wejście programu i sprawdza czy wyjście programu jest takie samo jak "
+#~ "oczekiwane wyjście testu. Możliwe odpowiedzi to: OK, SKOŃCZONE, ŹLE, BŁĄD "
+#~ "WYKONANIA.|n |n OK - program zakończył się i odpowiedz się zgadza|n "
+#~ "SKOŃCZONE - program zakończył się, ale nie ma z czym porównać odpowiedzi |"
+#~ "n ŹLE - program zakończył się, ale dał inna odpowiedź |n BŁĄD WYKONANIA - "
+#~ "program zwrócił kod wyjścia różny od zera"
+
+#~ msgid "sciezka do programu wykonywalnego"
+#~ msgstr "ścieżka do programu wykonywalnego"
+
+#~ msgid "sciezka do folderu z testami (zawiera pliki *.in oraz *.out)"
+#~ msgstr "ścieżka do folderu z testami (zawiera pliki *.in oraz *.out)"
+
+#~ msgid ""
+#~ "nazwa testu bez sufiksu .in; program jest testowany na konkretnym tescie; "
+#~ "parametr \t\tmoze wystapic wiecej niz raz"
+#~ msgstr ""
+#~ "nazwa testu bez sufiksu .in; program jest testowany na konkretnym teście; "
+#~ "parametr może wystąpić więcej niż raz"
+
+#~ msgid "alias dla -TC"
+#~ msgstr "alias dla -TC"
+
+#~ msgid "alias dla -O"
+#~ msgstr "alias dla -O"
+
+#~ msgid "nie wyswietlaj czasu dzialania programu"
+#~ msgstr "nie wyświetlaj czasu działania programu"
+
+#~ msgid "nie wyswietlaj porownania odpowiedzi blednej i poprawnej"
+#~ msgstr "nie wyświetlaj porównania odpowiedzi błędnej i poprawnej"
+
+#~ msgid "nie wyswietlaj testow, ktore program przeszedl poprawnie"
+#~ msgstr "nie wyświetlaj testów, które program przeszedł poprawnie"
+
+#~ msgid "nie wyswietlaj testow, ktorych program nie przeszedl poprawnie"
+#~ msgstr "nie wyświetlaj testów, których program nie przeszedł poprawnie"
+
+#~ msgid "wymus wlaczenie kolorow"
+#~ msgstr "wymuś włączenie kolorów"
+
+#~ msgid "wymus wylaczenie kolorow"
+#~ msgstr "wymuś wyłączenie kolorów"
+
+#~ msgid "nie wyswietlaj podsumowania"
+#~ msgstr "nie wyświetlaj podsumowania"
+
+#~ msgid "show program's version number and exit"
+#~ msgstr "wypisz wersję programu"
+
+#~ msgid "Plik wykonywalny nie istnieje"
+#~ msgstr "Plik wykonywalny nie istnieje"
+
+#~ msgid "Folder z testami nie istnieje"
+#~ msgstr "Folder z testami nie istnieje"
+
+#~ msgid "Poprawne"
+#~ msgstr "Poprawne"
+
+#~ msgid "Skonczone"
+#~ msgstr "Skończone"
+
+#~ msgid "Niepoprawne"
+#~ msgstr "Niepoprawne"
+
+#~ msgid "Bledy wykonania"
+#~ msgstr "Błędy wykonania"
+
+#~ msgid "czas"
+#~ msgstr "czas"
+
+#~ msgid "ZLE"
+#~ msgstr "ŹLE"
+
+#~ msgid "wynik programu"
+#~ msgstr "wynik programu"
+
+#~ msgid "prawidlowy wynik"
+#~ msgstr "prawidłowy wynik"
+
+#~ msgid "SKONCZONY"
+#~ msgstr "SKOŃCZONY"
+
+#~ msgid "BLAD WYKONANIA"
+#~ msgstr "BŁĄD WYKONANIA"
+
+#~ msgid "Wersja pythona"
+#~ msgstr "Wersja pythona"
+
+#~ msgid "Wymagana wersja pythona"
+#~ msgstr "Wymagana wersja pythona"
