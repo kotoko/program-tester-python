@@ -119,12 +119,21 @@ def check_terminal():
 def read_arguments():
 	parser = argparse.ArgumentParser(
 		__file__,
+		add_help=False,
 		formatter_class=MultilineFormatter,
 		description=_("Tester programow. Skrypt uruchamia program na serii testow, przekierowuje wejscie \
 		programu i sprawdza czy wyjscie programu jest takie samo jak wyjscie testu. Mozliwe odpowiedzi \
 		to: OK, SKONCZONE, ZLE, BLAD WYKONANIA.|n |n OK - program zakonczyl sie i odpowiedz sie zgadza \
 		|n SKONCZONE - program zakonczyl sie, ale nie ma z czym porownac odpowiedzi |n ZLE - program \
 		zakonczyl sie, ale dal inna odpowiedz |n BLAD WYKONANIA - program zwrocil kod wyjscia rozny od zera")
+	)
+
+	parser.add_argument(
+		"-h",
+		"--help",
+		action="help",
+		default=argparse.SUPPRESS,
+		help=_("show help message and exit")
 	)
 
 	parser.add_argument(
@@ -211,6 +220,7 @@ def read_arguments():
 		"-V",
 		"--version",
 		action="version",
+		help=_("show program's version number and exit"),
 		version=__version__
 	)
 
