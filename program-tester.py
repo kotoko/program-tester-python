@@ -7,7 +7,7 @@ import subprocess
 import timeit
 import textwrap
 
-__version__ = '0.3'
+__version__ = '9999'
 
 
 class Colors(object):
