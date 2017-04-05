@@ -15,5 +15,5 @@ Testy należy zdobyć samodzielnie :)
 
 ## TODO
 - [ ] zmierzyć zużytą pamięć przez program
-- [ ] nie uruchamiać programu drugi raz podczas mierzenia czasu
+- [ ] nie uruchamiać programu po raz drugi podczas mierzenia czasu
 
