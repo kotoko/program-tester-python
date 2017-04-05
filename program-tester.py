@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+#
+# Copyright (c) 2017 jubias <jubias@users.noreply.github.com>
+#
+
 import argparse
 import sys
 import os
