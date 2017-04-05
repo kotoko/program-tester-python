@@ -355,9 +355,7 @@ def run_test(test_name, test_in, test_out, results):
 		)
 		process.wait()
 
-		# TODO - run only once program
-		# Maybe helps:
-		# subprocess.run() -> https://docs.python.org/3/library/subprocess.html#subprocess.run
+		# TODO: run program only once
 		if Options.show_time:
 			try:
 				start = timeit.default_timer()
