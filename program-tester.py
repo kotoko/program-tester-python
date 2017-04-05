@@ -301,7 +301,7 @@ def print_test_result(test_name, status, time=-1, comparison=''):
 			print(prefix + test_name + separator + Colors.wrong + _("ZLE") + Colors.reset)
 			if Options.show_comparision:
 				print(comparison)
-				print(_("(wynik programu") + "  |  " + _("prawidlowy wynik)"))
+				print("(" + _("wynik programu") + "  |  " + _("prawidlowy wynik") + ")")
 			print_time(time)
 	# completed
 	elif status == 2:
