@@ -221,7 +221,7 @@ def read_arguments():
 		"-V",
 		"--version",
 		action="version",
-		help=_("show program's version number"),
+		help=_("show script's version number"),
 		version=__version__
 	)
 
