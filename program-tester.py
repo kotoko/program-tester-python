@@ -9,6 +9,17 @@ import textwrap
 import gettext
 
 __version__ = '0.3'
+app = "program-tester"
+
+gettext.bindtextdomain(
+		app,
+		os.path.join(
+			os.path.abspath(os.path.dirname(__file__)),
+			"l10n"
+		)
+	)
+gettext.textdomain(app)
+_ = gettext.gettext
 
 
 class Colors(object):
