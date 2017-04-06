@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2017 jubias <jubias@users.noreply.github.com>
+# Copyright (c) 2017 kotoko <kotoko@users.noreply.github.com>
 #
 
 import argparse
@@ -13,7 +13,7 @@ import textwrap
 import gettext
 
 
-__version__ = '0.4'
+__version__ = '0.5'
 app = "program-tester"
 
 gettext.bindtextdomain(
@@ -238,9 +238,7 @@ def parse_arguments(arg):
 	Options.tests_folder = os.path.abspath(arg.TESTS)
 
 	if arg.test:
-		Options.test_mode = 1
-		for test in arg.test:
-			Options.tests_list.append(test)
+		Options.tests_list = arg.test
 
 	if arg.portable:
 		Options.show_time = 0
