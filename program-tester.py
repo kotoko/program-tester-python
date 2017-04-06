@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2017 jubias <jubias@users.noreply.github.com>
+# Copyright (c) 2017 kotoko <kotoko@users.noreply.github.com>
 #
 
 import argparse
