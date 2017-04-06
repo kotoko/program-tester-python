@@ -238,7 +238,6 @@ def parse_arguments(arg):
 	Options.tests_folder = os.path.abspath(arg.TESTS)
 
 	if arg.test:
-		Options.test_mode = 1
 		for test in arg.test:
 			Options.tests_list.append(test)
 
