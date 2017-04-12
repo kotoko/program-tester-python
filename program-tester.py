@@ -359,8 +359,8 @@ def run_test(test_name, test_in, test_out, results):
 
 		# TODO: run program only once
 		if Options.show_time:
+			start = timeit.default_timer()
 			try:
-				start = timeit.default_timer()
 				time = timeit.timeit(
 					stmt="subprocess.check_call(PROGRAM, stdin=file_in, stdout=subprocess.DEVNULL,\
 					stderr=subprocess.DEVNULL, shell=False)",
