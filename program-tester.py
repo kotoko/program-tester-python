@@ -13,7 +13,7 @@ import textwrap
 import gettext
 
 
-__version__ = '0.5'
+__version__ = "0.5"
 app = "program-tester"
 
 gettext.bindtextdomain(
@@ -50,8 +50,8 @@ class Colors(object):
 
 
 class Options(object):
-	program = ''
-	tests_folder = ''
+	program = ""
+	tests_folder = ""
 	tests_list = []
 	force_colors = 0
 	show_time = 1
@@ -98,9 +98,9 @@ class Results(object):
 # See: http://stackoverflow.com/a/32974697
 class MultilineFormatter(argparse.HelpFormatter):
 	def _fill_text(self, text, width, indent):
-		text = self._whitespace_matcher.sub(' ', text).strip()
-		paragraphs = text.split('|n ')
-		multiline_text = ''
+		text = self._whitespace_matcher.sub(" ", text).strip()
+		paragraphs = text.split("|n ")
+		multiline_text = ""
 
 		for paragraph in paragraphs:
 			formatted_paragraph = textwrap.fill(
@@ -108,7 +108,7 @@ class MultilineFormatter(argparse.HelpFormatter):
 				width,
 				initial_indent=indent,
 				subsequent_indent=indent
-			) + '\n'
+			) + "\n"
 
 			multiline_text = multiline_text + formatted_paragraph
 
@@ -157,7 +157,7 @@ def read_arguments():
 	parser.add_argument(
 		"--test",
 		type=str,
-		action='append',
+		action="append",
 		help=_("test's name without suffix .in; program is running only on target test; \
 		parameter can be specified multiple times")
 	)
@@ -300,7 +300,7 @@ def print_time(time):
 		print(_("time") + ": {:.2f}\n".format(time))
 
 
-def print_test_result(test_name, status, time=-1, comparison=''):
+def print_test_result(test_name, status, time=-1, comparison=""):
 	separator = ":\t"
 	prefix = _("Test") + " "
 
@@ -332,7 +332,7 @@ def print_test_result(test_name, status, time=-1, comparison=''):
 
 
 def make_prefix(text, length):
-	text_list = text.split('\n', 1)
+	text_list = text.split("\n", 1)
 	text = text_list[0]
 	if len(text) <= length:
 		if len(text_list) > 1:
@@ -347,7 +347,7 @@ def make_prefix(text, length):
 
 
 def run_test(test_name, test_in, test_out, results):
-	with open(test_in, 'rt') as file_in, tempfile.SpooledTemporaryFile(mode='r+t') as file_out:
+	with open(test_in, "rt") as file_in, tempfile.SpooledTemporaryFile(mode="r+t") as file_out:
 		process = subprocess.Popen(
 			Options.program,
 			stdin=file_in,
@@ -380,7 +380,7 @@ def run_test(test_name, test_in, test_out, results):
 			print_test_result(test_name, 3, time)
 		else:
 			try:
-				with open(test_out, 'rt') as file_answer:
+				with open(test_out, "rt") as file_answer:
 					file_out.seek(0)
 					if file_answer.read().strip() == file_out.read().strip():
 						results.add_ok()
@@ -414,26 +414,26 @@ def run_tests():
 	if Options.tests_list:
 		for file in os.listdir(Options.tests_folder):
 			for name in Options.tests_list:
-				if file.lower().endswith('.in') and name == os.path.splitext(file)[0]:
+				if file.lower().endswith(".in") and name == os.path.splitext(file)[0]:
 					file = os.path.join(Options.tests_folder, file)
-					tests[name] = (file, '')
+					tests[name] = (file, "")
 
 		for file in os.listdir(Options.tests_folder):
 			for name in Options.tests_list:
-				if file.lower().endswith('.out') and name == os.path.splitext(file)[0]:
+				if file.lower().endswith(".out") and name == os.path.splitext(file)[0]:
 					if name in tests:
 						test = tests[name]
 						file = os.path.join(Options.tests_folder, file)
 						tests[name] = (test[0], file)
 	else:
 		for file in os.listdir(Options.tests_folder):
-			if file.lower().endswith('.in'):
+			if file.lower().endswith(".in"):
 				name = os.path.splitext(file)[0]
 				file_in = os.path.join(Options.tests_folder, file)
-				tests[name] = (file_in, '')
+				tests[name] = (file_in, "")
 
 		for file in os.listdir(Options.tests_folder):
-			if file.lower().endswith('.out'):
+			if file.lower().endswith(".out"):
 				name = os.path.splitext(file)[0]
 				if name in tests:
 					test = tests[name]
