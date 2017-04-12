@@ -25,7 +25,7 @@ Na końcu uruchom:
     # ./program-tester
 
 ### Pełna instalacja
-Zaletami pełnej instalacji są: łatwość aktualizacji skryptu, obsługa języka polskiego, wygoda uruchomienia skryptu. Wymaganiem jest wcześniejsze zainstalowanie programu *git*.
+Zaletami pełnej instalacji są: łatwość aktualizacji skryptu, obsługa języka polskiego, wygoda uruchomienia skryptu. Wymaganiem jest wcześniejsze zainstalowanie programu **git**.
 
 Zacznij od pobrania całego projektu:
 
