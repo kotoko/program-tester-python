@@ -127,11 +127,11 @@ def read_arguments():
 		add_help=False,
 		formatter_class=MultilineFormatter,
 		description=_("Program tester. Script runs program on multiple tests and checks \
-		program's outputs. Possible responses: OK, COMPLETED, WRONG, ERROR. |n |n \
+		program's outputs. Possible responses: OK, COMPLETED, WRONG ANSWER, RUNTIME ERROR. |n |n \
 		OK - program's completed with correct output |n \
 		COMPLETED - program's completed, but there is missing *.out file |n \
-		WRONG - program's completed, but the output is different than *.out file |n \
-		ERROR - program's completed with return code other than 0")
+		WRONG ANSWER- program's completed, but the output is different than *.out file |n \
+		RUNTIME ERROR - program's completed with return code other than 0")
 	)
 
 	parser.add_argument(
@@ -285,14 +285,14 @@ def check_files():
 def print_tests_summary(results):
 	print("\n\n-----")
 
-	print(_("Correct") + ": " + Colors.ok + str(results.get_ok()) + Colors.reset)
+	print(_("Ok") + ": " + Colors.ok + str(results.get_ok()) + Colors.reset)
 
 	if results.get_completed() > 0:
 		print(_("Completed") + ": " + Colors.completed + str(results.get_completed()) + Colors.reset)
 
-	print(_("Wrong") + ": " + Colors.wrong + str(results.get_wrong()) + Colors.reset)
+	print(_("Wrong answer") + ": " + Colors.wrong + str(results.get_wrong()) + Colors.reset)
 
-	print(_("Error") + ": " + Colors.error + str(results.get_error()) + Colors.reset)
+	print(_("Runtime error") + ": " + Colors.error + str(results.get_error()) + Colors.reset)
 
 
 def print_time(time):
@@ -309,10 +309,10 @@ def print_test_result(test_name, status, time=-1, comparison=""):
 		if Options.show_test_ok:
 			print(prefix + test_name + separator + Colors.ok + _("OK") + Colors.reset)
 			print_time(time)
-	# wrong
+	# wrong answer
 	elif status == 1:
 		if Options.show_test_wrong:
-			print(prefix + test_name + separator + Colors.wrong + _("WRONG") + Colors.reset)
+			print(prefix + test_name + separator + Colors.wrong + _("WRONG ANSWER") + Colors.reset)
 			if Options.show_comparision:
 				print(comparison)
 				print("(" + _("program's output") + "  |  " + _("correct answer") + ")")
@@ -322,10 +322,10 @@ def print_test_result(test_name, status, time=-1, comparison=""):
 		if Options.show_test_completed:
 			print(prefix + test_name + separator + Colors.completed + _("COMPLETED") + Colors.reset)
 			print_time(time)
-	# error
+	# runtime error
 	elif status == 3:
 		if Options.show_test_error:
-			print(prefix + test_name + separator + Colors.error + _("ERROR") + Colors.reset)
+			print(prefix + test_name + separator + Colors.error + _("RUNTIME ERROR") + Colors.reset)
 			print_time(time)
 	else:
 		pass
