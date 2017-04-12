@@ -368,7 +368,7 @@ def run_test(test_name, test_in, test_out, results):
 					+ "'; file_in = open( '" + test_in + "' , 'r');",
 					number=1
 				)
-			except:
+			except subprocess.CalledProcessError:
 				time = timeit.default_timer() - start
 		else:
 			time = 0
