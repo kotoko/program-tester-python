@@ -51,7 +51,7 @@ if [ ! -d "$DIRECTORY" ]; then
     exit 1
 fi
 
-# go directory
+# go to directory
 cd "$DIRECTORY"
 
 # clenup directory
