@@ -19,7 +19,7 @@ app = "program-tester"
 gettext.bindtextdomain(
 		app,
 		os.path.join(
-			os.path.abspath(os.path.dirname(__file__)),
+			os.path.dirname(os.path.realpath(__file__)),
 			"l10n"
 		)
 	)
