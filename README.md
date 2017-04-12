@@ -22,7 +22,7 @@ Potem nadaj mu prawa do wykonywania:
 
 Na końcu uruchom:
 
-    ./program-tester
+    # ./program-tester
 
 ### Pełna instalacja
 Zaletami pełnej instalacji są: łatwość aktualizacji skryptu, obsługa języka polskiego, wygoda uruchomienia skryptu. Wymaganiem jest wcześniejsze zainstalowanie programu *git*.
