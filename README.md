@@ -61,6 +61,9 @@ git clean -f -d
 # update script
 git pull
 
+# set executable permissions
+chmod +x program-tester.py
+
 exit
 ```
 
