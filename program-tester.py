@@ -13,13 +13,13 @@ import textwrap
 import gettext
 
 
-__version__ = '0.5'
+__version__ = "0.6"
 app = "program-tester"
 
 gettext.bindtextdomain(
 		app,
 		os.path.join(
-			os.path.abspath(os.path.dirname(__file__)),
+			os.path.dirname(os.path.realpath(__file__)),
 			"l10n"
 		)
 	)
@@ -50,8 +50,8 @@ class Colors(object):
 
 
 class Options(object):
-	program = ''
-	tests_folder = ''
+	program = ""
+	tests_folder = ""
 	tests_list = []
 	force_colors = 0
 	show_time = 1
@@ -98,9 +98,9 @@ class Results(object):
 # See: http://stackoverflow.com/a/32974697
 class MultilineFormatter(argparse.HelpFormatter):
 	def _fill_text(self, text, width, indent):
-		text = self._whitespace_matcher.sub(' ', text).strip()
-		paragraphs = text.split('|n ')
-		multiline_text = ''
+		text = self._whitespace_matcher.sub(" ", text).strip()
+		paragraphs = text.split("|n ")
+		multiline_text = ""
 
 		for paragraph in paragraphs:
 			formatted_paragraph = textwrap.fill(
@@ -108,7 +108,7 @@ class MultilineFormatter(argparse.HelpFormatter):
 				width,
 				initial_indent=indent,
 				subsequent_indent=indent
-			) + '\n'
+			) + "\n"
 
 			multiline_text = multiline_text + formatted_paragraph
 
@@ -127,11 +127,11 @@ def read_arguments():
 		add_help=False,
 		formatter_class=MultilineFormatter,
 		description=_("Program tester. Script runs program on multiple tests and checks \
-		program's outputs. Possible responses: OK, COMPLETED, WRONG, ERROR. |n |n \
+		program's outputs. Possible responses: OK, COMPLETED, WRONG ANSWER, RUNTIME ERROR. |n |n \
 		OK - program's completed with correct output |n \
 		COMPLETED - program's completed, but there is missing *.out file |n \
-		WRONG - program's completed, but the output is different than *.out file |n \
-		ERROR - program's completed with return code other than 0")
+		WRONG ANSWER- program's completed, but the output is different than *.out file |n \
+		RUNTIME ERROR - program's completed with return code other than 0")
 	)
 
 	parser.add_argument(
@@ -157,7 +157,7 @@ def read_arguments():
 	parser.add_argument(
 		"--test",
 		type=str,
-		action='append',
+		action="append",
 		help=_("test's name without suffix .in; program is running only on target test; \
 		parameter can be specified multiple times")
 	)
@@ -285,14 +285,14 @@ def check_files():
 def print_tests_summary(results):
 	print("\n\n-----")
 
-	print(_("Correct") + ": " + Colors.ok + str(results.get_ok()) + Colors.reset)
+	print(_("Ok") + ": " + Colors.ok + str(results.get_ok()) + Colors.reset)
 
 	if results.get_completed() > 0:
 		print(_("Completed") + ": " + Colors.completed + str(results.get_completed()) + Colors.reset)
 
-	print(_("Wrong") + ": " + Colors.wrong + str(results.get_wrong()) + Colors.reset)
+	print(_("Wrong answer") + ": " + Colors.wrong + str(results.get_wrong()) + Colors.reset)
 
-	print(_("Error") + ": " + Colors.error + str(results.get_error()) + Colors.reset)
+	print(_("Runtime error") + ": " + Colors.error + str(results.get_error()) + Colors.reset)
 
 
 def print_time(time):
@@ -300,7 +300,7 @@ def print_time(time):
 		print(_("time") + ": {:.2f}\n".format(time))
 
 
-def print_test_result(test_name, status, time=-1, comparison=''):
+def print_test_result(test_name, status, time=-1, comparison=""):
 	separator = ":\t"
 	prefix = _("Test") + " "
 
@@ -309,10 +309,10 @@ def print_test_result(test_name, status, time=-1, comparison=''):
 		if Options.show_test_ok:
 			print(prefix + test_name + separator + Colors.ok + _("OK") + Colors.reset)
 			print_time(time)
-	# wrong
+	# wrong answer
 	elif status == 1:
 		if Options.show_test_wrong:
-			print(prefix + test_name + separator + Colors.wrong + _("WRONG") + Colors.reset)
+			print(prefix + test_name + separator + Colors.wrong + _("WRONG ANSWER") + Colors.reset)
 			if Options.show_comparision:
 				print(comparison)
 				print("(" + _("program's output") + "  |  " + _("correct answer") + ")")
@@ -322,17 +322,17 @@ def print_test_result(test_name, status, time=-1, comparison=''):
 		if Options.show_test_completed:
 			print(prefix + test_name + separator + Colors.completed + _("COMPLETED") + Colors.reset)
 			print_time(time)
-	# error
+	# runtime error
 	elif status == 3:
 		if Options.show_test_error:
-			print(prefix + test_name + separator + Colors.error + _("ERROR") + Colors.reset)
+			print(prefix + test_name + separator + Colors.error + _("RUNTIME ERROR") + Colors.reset)
 			print_time(time)
 	else:
 		pass
 
 
 def make_prefix(text, length):
-	text_list = text.split('\n', 1)
+	text_list = text.split("\n", 1)
 	text = text_list[0]
 	if len(text) <= length:
 		if len(text_list) > 1:
@@ -347,7 +347,7 @@ def make_prefix(text, length):
 
 
 def run_test(test_name, test_in, test_out, results):
-	with open(test_in, 'rt') as file_in, tempfile.SpooledTemporaryFile(mode='r+t') as file_out:
+	with open(test_in, "rt") as file_in, tempfile.SpooledTemporaryFile(mode="r+t") as file_out:
 		process = subprocess.Popen(
 			Options.program,
 			stdin=file_in,
@@ -359,8 +359,8 @@ def run_test(test_name, test_in, test_out, results):
 
 		# TODO: run program only once
 		if Options.show_time:
+			start = timeit.default_timer()
 			try:
-				start = timeit.default_timer()
 				time = timeit.timeit(
 					stmt="subprocess.check_call(PROGRAM, stdin=file_in, stdout=subprocess.DEVNULL,\
 					stderr=subprocess.DEVNULL, shell=False)",
@@ -368,7 +368,7 @@ def run_test(test_name, test_in, test_out, results):
 					+ "'; file_in = open( '" + test_in + "' , 'r');",
 					number=1
 				)
-			except:
+			except subprocess.CalledProcessError:
 				time = timeit.default_timer() - start
 		else:
 			time = 0
@@ -380,7 +380,7 @@ def run_test(test_name, test_in, test_out, results):
 			print_test_result(test_name, 3, time)
 		else:
 			try:
-				with open(test_out, 'rt') as file_answer:
+				with open(test_out, "rt") as file_answer:
 					file_out.seek(0)
 					if file_answer.read().strip() == file_out.read().strip():
 						results.add_ok()
@@ -414,26 +414,26 @@ def run_tests():
 	if Options.tests_list:
 		for file in os.listdir(Options.tests_folder):
 			for name in Options.tests_list:
-				if file.lower().endswith('.in') and name == os.path.splitext(file)[0]:
+				if file.lower().endswith(".in") and name == os.path.splitext(file)[0]:
 					file = os.path.join(Options.tests_folder, file)
-					tests[name] = (file, '')
+					tests[name] = (file, "")
 
 		for file in os.listdir(Options.tests_folder):
 			for name in Options.tests_list:
-				if file.lower().endswith('.out') and name == os.path.splitext(file)[0]:
+				if file.lower().endswith(".out") and name == os.path.splitext(file)[0]:
 					if name in tests:
 						test = tests[name]
 						file = os.path.join(Options.tests_folder, file)
 						tests[name] = (test[0], file)
 	else:
 		for file in os.listdir(Options.tests_folder):
-			if file.lower().endswith('.in'):
+			if file.lower().endswith(".in"):
 				name = os.path.splitext(file)[0]
 				file_in = os.path.join(Options.tests_folder, file)
-				tests[name] = (file_in, '')
+				tests[name] = (file_in, "")
 
 		for file in os.listdir(Options.tests_folder):
-			if file.lower().endswith('.out'):
+			if file.lower().endswith(".out"):
 				name = os.path.splitext(file)[0]
 				if name in tests:
 					test = tests[name]
