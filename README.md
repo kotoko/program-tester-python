@@ -55,15 +55,16 @@ fi
 cd "$DIRECTORY"
 
 # clenup directory
-git reset --hard origin/master
-git clean -f -d
+git reset --hard origin/master >/dev/null || exit 1
+git clean -f -d >/dev/null || exit 1
 
 # update script
-git pull
+git pull >/dev/null || exit 1
 
 # set executable permissions
 chmod +x program-tester.py
 
+echo "Updated successfully!"
 exit
 ```
 
