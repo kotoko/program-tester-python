@@ -51,15 +51,21 @@ if [ ! -d "$DIRECTORY" ]; then
     exit 1
 fi
 
+function show_error_and_exit
+{
+    echo "Error occured!"
+    exit 1
+}
+
 # go to directory
 cd "$DIRECTORY"
 
 # clenup directory
-git reset --hard origin/master >/dev/null 2>&1 || exit 1
-git clean -f -d >/dev/null 2>&1 || exit 1
+git reset --hard origin/master >/dev/null 2>&1 || show_error_and_exit
+git clean -f -d >/dev/null 2>&1 || show_error_and_exit
 
 # update script
-git pull >/dev/null 2>&1 || exit 1
+git pull >/dev/null 2>&1 || show_error_and_exit
 
 # set executable permissions
 chmod +x program-tester.py
