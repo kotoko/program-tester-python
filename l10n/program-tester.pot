@@ -1,0 +1,147 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: program-tester\n"
+"POT-Creation-Date: 2017-04-15 20:06+0200\n"
+"PO-Revision-Date: 2017-04-15 20:06+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: program-tester.py:129
+msgid ""
+"Program tester. Script runs program on multiple tests and checks \t"
+"\tprogram's outputs. Possible responses: OK, COMPLETED, WRONG ANSWER, "
+"RUNTIME ERROR. |n |n \t\tOK - program's completed with correct output |n \t"
+"\tCOMPLETED - program's completed, but there is missing *.out file |n \t"
+"\tWRONG ANSWER- program's completed, but the output is different than *.out "
+"file |n \t\tRUNTIME ERROR - program's completed with return code other than 0"
+msgstr ""
+
+#: program-tester.py:142
+msgid "show help message"
+msgstr ""
+
+#: program-tester.py:148
+msgid "path to executable binary"
+msgstr ""
+
+#: program-tester.py:154
+msgid "path to folder with tests (contains files *.in and *.out)"
+msgstr ""
+
+#: program-tester.py:161
+msgid ""
+"test's name without suffix .in; program is running only on target test; \t"
+"\tparameter can be specified multiple times"
+msgstr ""
+
+#: program-tester.py:168
+msgid "alias for -TC"
+msgstr ""
+
+#: program-tester.py:174
+msgid "alias for -O"
+msgstr ""
+
+#: program-tester.py:181
+msgid "do not show execution time"
+msgstr ""
+
+#: program-tester.py:188
+msgid "do not show comparison of program's output and correct answer"
+msgstr ""
+
+#: program-tester.py:195
+msgid "do not show tests passed correctly"
+msgstr ""
+
+#: program-tester.py:202
+msgid "do not show tests passed incorrectly"
+msgstr ""
+
+#: program-tester.py:210
+msgid "force color even when stdout is not a tty"
+msgstr ""
+
+#: program-tester.py:216
+msgid "turn off color"
+msgstr ""
+
+#: program-tester.py:222
+msgid "do not show summary"
+msgstr ""
+
+#: program-tester.py:229
+msgid "show script's version number"
+msgstr ""
+
+#: program-tester.py:277
+msgid "Executable binary does not exist"
+msgstr ""
+
+#: program-tester.py:281
+msgid "Folder with tests does not exist"
+msgstr ""
+
+#: program-tester.py:288
+msgid "Ok"
+msgstr ""
+
+#: program-tester.py:291
+msgid "Completed"
+msgstr ""
+
+#: program-tester.py:293
+msgid "Wrong answer"
+msgstr ""
+
+#: program-tester.py:295
+msgid "Runtime error"
+msgstr ""
+
+#: program-tester.py:300
+msgid "time"
+msgstr ""
+
+#: program-tester.py:305
+msgid "Test"
+msgstr ""
+
+#: program-tester.py:310
+msgid "OK"
+msgstr ""
+
+#: program-tester.py:315
+msgid "WRONG ANSWER"
+msgstr ""
+
+#: program-tester.py:318
+msgid "program's output"
+msgstr ""
+
+#: program-tester.py:318
+msgid "correct answer"
+msgstr ""
+
+#: program-tester.py:323
+msgid "COMPLETED"
+msgstr ""
+
+#: program-tester.py:328
+msgid "RUNTIME ERROR"
+msgstr ""
+
+#: program-tester.py:469
+msgid "Python's version"
+msgstr ""
+
+#: program-tester.py:473
+msgid "Required python's version"
+msgstr ""
