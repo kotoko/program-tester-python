@@ -25,7 +25,7 @@ Na końcu uruchom:
     # ./program-tester
 
 ### Pełna instalacja
-Zaletami pełnej instalacji są: łatwość aktualizacji skryptu, obsługa języka polskiego, wygoda uruchomienia skryptu. Wymaganiem jest wcześniejsze zainstalowanie programu **git**.
+Zaletami pełnej instalacji są: łatwość aktualizacji skryptu, obsługa języka polskiego, wygoda uruchomienia skryptu. Wymaganiem jest wcześniejsze zainstalowanie programów: **git**, **gettext**, **make**.
 
 Zacznij od pobrania całego projektu:
 
@@ -69,6 +69,10 @@ git pull >/dev/null 2>&1 || show_error_and_exit
 
 # set executable permissions
 chmod +x program-tester.py
+
+# generate translations
+make clean >/dev/null 2>&1 || show_error_and_exit
+make all >/dev/null 2>&1 || show_error_and_exit
 
 echo "Updated successfully!"
 exit
