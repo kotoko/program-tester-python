@@ -58,7 +58,7 @@ function show_error_and_exit
 }
 
 # go to directory
-cd "$DIRECTORY"
+cd "$DIRECTORY" >/dev/null 2>&1 || show_error_and_exit
 
 # clenup directory
 git reset --hard origin/master >/dev/null 2>&1 || show_error_and_exit
@@ -68,7 +68,7 @@ git clean -f -d >/dev/null 2>&1 || show_error_and_exit
 git pull >/dev/null 2>&1 || show_error_and_exit
 
 # set executable permissions
-chmod +x program-tester.py
+chmod +x program-tester.py >/dev/null 2>&1 || show_error_and_exit
 
 # generate translations
 make clean >/dev/null 2>&1 || show_error_and_exit
