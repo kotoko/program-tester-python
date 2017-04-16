@@ -13,7 +13,7 @@ import textwrap
 import gettext
 
 
-__version__ = "0.6.3"
+__version__ = "0.7"
 app = "program-tester"
 
 gettext.bindtextdomain(
