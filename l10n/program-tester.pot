@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: program-tester\n"
-"POT-Creation-Date: 2017-05-24 08:46+0200\n"
+"POT-Creation-Date: 2017-05-24 10:54+0200\n"
 "PO-Revision-Date: 2017-04-15 20:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: program-tester.py:151
+#: program-tester.py:156
 msgid ""
 "Program tester. Script runs program on multiple tests and checks \t"
 "\tprogram's outputs. Possible responses: OK, COMPLETED, WRONG ANSWER, "
@@ -25,132 +25,136 @@ msgid ""
 "file |n \t\tRUNTIME ERROR - program's completed with return code other than 0"
 msgstr ""
 
-#: program-tester.py:164
+#: program-tester.py:169
 msgid "show help message"
 msgstr ""
 
-#: program-tester.py:170
+#: program-tester.py:175
 msgid "path to executable binary"
 msgstr ""
 
-#: program-tester.py:176
+#: program-tester.py:181
 msgid "path to folder with tests (contains files *.in and *.out)"
 msgstr ""
 
-#: program-tester.py:183
+#: program-tester.py:188
 msgid ""
 "test's name without suffix .in; program is running only on target test; \t"
 "\tparameter can be specified multiple times"
 msgstr ""
 
-#: program-tester.py:190
+#: program-tester.py:195
 msgid "alias for -TC"
 msgstr ""
 
-#: program-tester.py:196
+#: program-tester.py:201
 msgid "alias for -O"
 msgstr ""
 
-#: program-tester.py:203
+#: program-tester.py:208
 msgid "do not show execution time"
 msgstr ""
 
-#: program-tester.py:210
+#: program-tester.py:215
 msgid "do not show comparison of program's output and correct answer"
 msgstr ""
 
-#: program-tester.py:217
+#: program-tester.py:222
 msgid "do not show tests passed correctly"
 msgstr ""
 
-#: program-tester.py:224
+#: program-tester.py:229
 msgid "do not show tests passed incorrectly"
 msgstr ""
 
-#: program-tester.py:232
+#: program-tester.py:237
 msgid "force color even when stdout is not a tty"
 msgstr ""
 
-#: program-tester.py:238
+#: program-tester.py:243
 msgid "turn off color"
 msgstr ""
 
-#: program-tester.py:244
+#: program-tester.py:249
 msgid "do not show summary"
 msgstr ""
 
-#: program-tester.py:251
+#: program-tester.py:255
+msgid "do not show status line"
+msgstr ""
+
+#: program-tester.py:262
 msgid "show script's version number"
 msgstr ""
 
-#: program-tester.py:299
+#: program-tester.py:313
 msgid "Executable binary does not exist"
 msgstr ""
 
-#: program-tester.py:303
+#: program-tester.py:317
 msgid "Folder with tests does not exist"
 msgstr ""
 
-#: program-tester.py:310
+#: program-tester.py:324
 msgid "Ok"
 msgstr ""
 
-#: program-tester.py:313
+#: program-tester.py:327
 msgid "Completed"
 msgstr ""
 
-#: program-tester.py:315
+#: program-tester.py:329
 msgid "Wrong answer"
 msgstr ""
 
-#: program-tester.py:317
+#: program-tester.py:331
 msgid "Runtime error"
 msgstr ""
 
-#: program-tester.py:322
+#: program-tester.py:336
 msgid "time"
 msgstr ""
 
-#: program-tester.py:327
+#: program-tester.py:341
 msgid "Test"
 msgstr ""
 
-#: program-tester.py:334
+#: program-tester.py:348
 msgid "OK"
 msgstr ""
 
-#: program-tester.py:340
+#: program-tester.py:354
 msgid "WRONG ANSWER"
 msgstr ""
 
-#: program-tester.py:343
+#: program-tester.py:357
 msgid "program's output"
 msgstr ""
 
-#: program-tester.py:343
+#: program-tester.py:357
 msgid "correct answer"
 msgstr ""
 
-#: program-tester.py:349
+#: program-tester.py:363
 msgid "COMPLETED"
 msgstr ""
 
-#: program-tester.py:355
+#: program-tester.py:369
 msgid "RUNTIME ERROR"
 msgstr ""
 
-#: program-tester.py:473
+#: program-tester.py:487
 msgid "Running"
 msgstr ""
 
-#: program-tester.py:474
+#: program-tester.py:488
 msgid "of"
 msgstr ""
 
-#: program-tester.py:505
+#: program-tester.py:519
 msgid "Python's version"
 msgstr ""
 
-#: program-tester.py:509
+#: program-tester.py:523
 msgid "Required python's version"
 msgstr ""

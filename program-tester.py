@@ -13,7 +13,7 @@ import textwrap
 import gettext
 
 
-__version__ = "0.8"
+__version__ = "0.8.1"
 app = "program-tester"
 
 gettext.bindtextdomain(
@@ -56,15 +56,17 @@ class StatusLine(object):
 
 	@classmethod
 	def print(cls, text):
-		print(text, end="", flush=True)
-		cls.length += len(text)
+		if Options.show_status_line == 1:
+			print(text, end="", flush=True)
+			cls.length += len(text)
 
 	@classmethod
 	def clear(cls):
-		print("\r", end="")
-		print(" " * cls.length, end="")
-		print("\r", end="", flush=True)
-		cls.length = 0
+		if Options.show_status_line == 1:
+			print("\r", end="")
+			print(" " * cls.length, end="")
+			print("\r", end="", flush=True)
+			cls.length = 0
 
 	@classmethod
 	def clear_print(cls, text):
@@ -84,6 +86,7 @@ class Options(object):
 	show_test_wrong = 1
 	show_test_completed = 1
 	show_test_error = 1
+	show_status_line = 1
 
 
 class Results(object):
@@ -142,6 +145,7 @@ def check_terminal():
 	if not Options.force_colors:
 		if not sys.stdout.isatty():
 			Colors.turn_off()
+			Options.show_status_line = 0
 
 
 def read_arguments():
@@ -246,6 +250,12 @@ def read_arguments():
 	)
 
 	parser.add_argument(
+		"--no-status",
+		action="store_true",
+		help=_("do not show status line")
+	)
+
+	parser.add_argument(
 		"-V",
 		"--version",
 		action="version",
@@ -293,6 +303,9 @@ def parse_arguments(arg):
 
 	if arg.no_summary:
 		Options.show_summary = 0
+
+	if arg.no_status:
+		Options.show_status_line = 0
 
 
 def check_files():
