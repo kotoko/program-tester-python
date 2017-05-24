@@ -145,6 +145,7 @@ def check_terminal():
 	if not Options.force_colors:
 		if not sys.stdout.isatty():
 			Colors.turn_off()
+			Options.show_status_line = 0
 
 
 def read_arguments():
