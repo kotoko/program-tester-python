@@ -40,6 +40,7 @@ class Colors(object):
 
 	@classmethod
 	def turn_off(cls):
+		cls.white = ""
 		cls.green = ""
 		cls.yellow = ""
 		cls.red = ""
