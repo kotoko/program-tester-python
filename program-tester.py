@@ -49,6 +49,27 @@ class Colors(object):
 		cls.error = ""
 
 
+class StatusLine(object):
+	length = 0
+
+	@classmethod
+	def print(cls, text):
+		print(text, end="", flush=True)
+		cls.length += len(text)
+
+	@classmethod
+	def clear(cls):
+		print("\r", end="")
+		print(" " * cls.length, end="")
+		print("\r", end="", flush=True)
+		cls.length = 0
+
+	@classmethod
+	def clear_print(cls, text):
+		cls.clear()
+		cls.print(text)
+
+
 class Options(object):
 	program = ""
 	tests_folder = ""
@@ -307,11 +328,13 @@ def print_test_result(test_name, status, time=-1, comparison=""):
 	# ok
 	if status == 0:
 		if Options.show_test_ok:
+			StatusLine.clear()
 			print(prefix + test_name + separator + Colors.ok + _("OK") + Colors.reset)
 			print_time(time)
 	# wrong answer
 	elif status == 1:
 		if Options.show_test_wrong:
+			StatusLine.clear()
 			print(prefix + test_name + separator + Colors.wrong + _("WRONG ANSWER") + Colors.reset)
 			if Options.show_comparision:
 				print(comparison)
@@ -320,11 +343,13 @@ def print_test_result(test_name, status, time=-1, comparison=""):
 	# completed
 	elif status == 2:
 		if Options.show_test_completed:
+			StatusLine.clear()
 			print(prefix + test_name + separator + Colors.completed + _("COMPLETED") + Colors.reset)
 			print_time(time)
 	# runtime error
 	elif status == 3:
 		if Options.show_test_error:
+			StatusLine.clear()
 			print(prefix + test_name + separator + Colors.error + _("RUNTIME ERROR") + Colors.reset)
 			print_time(time)
 	else:
@@ -440,8 +465,16 @@ def run_tests():
 					file_out = os.path.join(Options.tests_folder, file)
 					tests[name] = (test[0], file_out)
 
+	i = 1
 	for (test_name, test_files) in sorted(tests.items()):
+		StatusLine.clear_print(
+			_("Running") + " (" + Colors.yellow + str(i) + Colors.reset + " " +_("of") + " "
+			+ Colors.yellow + str(len(tests)) + Colors.reset + ") " + test_name
+		)
 		run_test(test_name, test_files[0], test_files[1], results)
+		i += 1
+
+	StatusLine.clear()
 
 	if Options.show_summary:
 		print_tests_summary(results)
