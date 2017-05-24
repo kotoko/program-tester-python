@@ -13,7 +13,7 @@ import textwrap
 import gettext
 
 
-__version__ = "0.7.1"
+__version__ = "0.8"
 app = "program-tester"
 
 gettext.bindtextdomain(
@@ -28,6 +28,7 @@ _ = gettext.gettext
 
 
 class Colors(object):
+	white = "\033[1m\033[15m"
 	green = "\033[1m\033[92m"
 	yellow = "\033[1m\033[93m"
 	red = "\033[1m\033[91m"
@@ -39,6 +40,7 @@ class Colors(object):
 
 	@classmethod
 	def turn_off(cls):
+		cls.white = ""
 		cls.green = ""
 		cls.yellow = ""
 		cls.red = ""
@@ -47,6 +49,27 @@ class Colors(object):
 		cls.completed = ""
 		cls.wrong = ""
 		cls.error = ""
+
+
+class StatusLine(object):
+	length = 0
+
+	@classmethod
+	def print(cls, text):
+		print(text, end="", flush=True)
+		cls.length += len(text)
+
+	@classmethod
+	def clear(cls):
+		print("\r", end="")
+		print(" " * cls.length, end="")
+		print("\r", end="", flush=True)
+		cls.length = 0
+
+	@classmethod
+	def clear_print(cls, text):
+		cls.clear()
+		cls.print(text)
 
 
 class Options(object):
@@ -303,16 +326,19 @@ def print_time(time):
 def print_test_result(test_name, status, time=-1, comparison=""):
 	separator = ":\t"
 	prefix = _("Test") + " "
+	prefix = prefix + Colors.white + test_name + Colors.reset + separator
 
 	# ok
 	if status == 0:
 		if Options.show_test_ok:
-			print(prefix + test_name + separator + Colors.ok + _("OK") + Colors.reset)
+			StatusLine.clear()
+			print(prefix + Colors.ok + _("OK") + Colors.reset)
 			print_time(time)
 	# wrong answer
 	elif status == 1:
 		if Options.show_test_wrong:
-			print(prefix + test_name + separator + Colors.wrong + _("WRONG ANSWER") + Colors.reset)
+			StatusLine.clear()
+			print(prefix + Colors.wrong + _("WRONG ANSWER") + Colors.reset)
 			if Options.show_comparision:
 				print(comparison)
 				print("(" + _("program's output") + "  |  " + _("correct answer") + ")")
@@ -320,12 +346,14 @@ def print_test_result(test_name, status, time=-1, comparison=""):
 	# completed
 	elif status == 2:
 		if Options.show_test_completed:
-			print(prefix + test_name + separator + Colors.completed + _("COMPLETED") + Colors.reset)
+			StatusLine.clear()
+			print(prefix + Colors.completed + _("COMPLETED") + Colors.reset)
 			print_time(time)
 	# runtime error
 	elif status == 3:
 		if Options.show_test_error:
-			print(prefix + test_name + separator + Colors.error + _("RUNTIME ERROR") + Colors.reset)
+			StatusLine.clear()
+			print(prefix + Colors.error + _("RUNTIME ERROR") + Colors.reset)
 			print_time(time)
 	else:
 		pass
@@ -440,8 +468,17 @@ def run_tests():
 					file_out = os.path.join(Options.tests_folder, file)
 					tests[name] = (test[0], file_out)
 
+	i = 1
 	for (test_name, test_files) in sorted(tests.items()):
+		StatusLine.clear_print(
+			_("Running") + " (" + Colors.yellow + str(i) + Colors.reset + " "
+			+ _("of") + " " + Colors.yellow + str(len(tests)) + Colors.reset + ") "
+			+ Colors.white + test_name + Colors.reset
+		)
 		run_test(test_name, test_files[0], test_files[1], results)
+		i += 1
+
+	StatusLine.clear()
 
 	if Options.show_summary:
 		print_tests_summary(results)
