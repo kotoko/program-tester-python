@@ -13,7 +13,7 @@ import textwrap
 import gettext
 
 
-__version__ = "0.8.1"
+__version__ = "0.9"
 app = "program-tester"
 
 gettext.bindtextdomain(
@@ -37,6 +37,7 @@ class Colors(object):
 	completed = yellow
 	wrong = red
 	error = red
+	test_name = white
 
 	@classmethod
 	def turn_off(cls):
@@ -49,6 +50,7 @@ class Colors(object):
 		cls.completed = ""
 		cls.wrong = ""
 		cls.error = ""
+		cls.test_name = ""
 
 
 class StatusLine(object):
@@ -339,7 +341,7 @@ def print_time(time):
 def print_test_result(test_name, status, time=-1, comparison=""):
 	separator = ":\t"
 	prefix = _("Test") + " "
-	prefix = prefix + Colors.white + test_name + Colors.reset + separator
+	prefix = prefix + Colors.test_name + test_name + Colors.reset + separator
 
 	# ok
 	if status == 0:
@@ -486,7 +488,7 @@ def run_tests():
 		StatusLine.clear_print(
 			_("Running") + " (" + Colors.yellow + str(i) + Colors.reset + " "
 			+ _("of") + " " + Colors.yellow + str(len(tests)) + Colors.reset + ") "
-			+ Colors.white + test_name + Colors.reset
+			+ Colors.test_name + test_name + Colors.reset
 		)
 		run_test(test_name, test_files[0], test_files[1], results)
 		i += 1
@@ -513,7 +515,11 @@ if __name__ == "__main__":
 	# 3.3 - subprocess, new constant DEVNULL
 	minimum_version = (3, 3)
 	if sys.version_info >= minimum_version:
-		main()
+		try:
+			main()
+		except KeyboardInterrupt:
+			print(_("Interrupted"))
+
 	else:
 		print(
 			_("Python's version") + ":  "
