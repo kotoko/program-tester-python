@@ -515,7 +515,11 @@ if __name__ == "__main__":
 	# 3.3 - subprocess, new constant DEVNULL
 	minimum_version = (3, 3)
 	if sys.version_info >= minimum_version:
-		main()
+		try:
+			main()
+		except KeyboardInterrupt:
+			print(_("Interrupted"))
+
 	else:
 		print(
 			_("Python's version") + ":  "
