@@ -338,8 +338,8 @@ def print_time(time):
 		print(_("time") + ": {:.2f}\n".format(time))
 
 
-def print_test_result(test_name, status, time=-1, comparison=""):
-	separator = ":\t"
+def print_test_result(test_name, status, time=-1, comparison="", distance=0):
+	separator = ": " + (" " * distance)
 	prefix = _("Test") + " "
 	prefix = prefix + Colors.test_name + test_name + Colors.reset + separator
 
@@ -389,7 +389,7 @@ def make_prefix(text, length):
 		return "%s..." % (text[:length - 3])
 
 
-def run_test(test_name, test_in, test_out, results):
+def run_test(test_name, test_in, test_out, results, print_distance=0):
 	with open(test_in, "rt") as file_in, tempfile.SpooledTemporaryFile(mode="r+t") as file_out:
 		process = subprocess.Popen(
 			Options.program,
@@ -420,7 +420,7 @@ def run_test(test_name, test_in, test_out, results):
 		if process.returncode != 0:
 			results.add_error()
 
-			print_test_result(test_name, 3, time)
+			print_test_result(test_name, 3, time, distance=print_distance)
 		else:
 			try:
 				with open(test_out, "rt") as file_answer:
@@ -428,7 +428,7 @@ def run_test(test_name, test_in, test_out, results):
 					if file_answer.read().strip() == file_out.read().strip():
 						results.add_ok()
 
-						print_test_result(test_name, 0, time)
+						print_test_result(test_name, 0, time, distance=print_distance)
 					else:
 						results.add_wrong()
 
@@ -443,11 +443,11 @@ def run_test(test_name, test_in, test_out, results):
 							+ "  |  " \
 							+ make_prefix(answer.strip(), 25)
 
-						print_test_result(test_name, 1, time, comparison)
+						print_test_result(test_name, 1, time, comparison, distance=print_distance)
 			except OSError:
 				results.add_completed()
 
-				print_test_result(test_name, 2, time)
+				print_test_result(test_name, 2, time, distance=print_distance)
 
 
 def run_tests():
@@ -483,6 +483,10 @@ def run_tests():
 					file_out = os.path.join(Options.tests_folder, file)
 					tests[name] = (test[0], file_out)
 
+	max_name_length = 0
+	for (test_name, test_files) in tests.items():
+		max_name_length = max(max_name_length, len(test_name))
+
 	i = 1
 	for (test_name, test_files) in sorted(tests.items()):
 		StatusLine.clear_print(
@@ -490,7 +494,7 @@ def run_tests():
 			+ _("of") + " " + Colors.yellow + str(len(tests)) + Colors.reset + ") "
 			+ Colors.test_name + test_name + Colors.reset
 		)
-		run_test(test_name, test_files[0], test_files[1], results)
+		run_test(test_name, test_files[0], test_files[1], results, print_distance=(max_name_length - len(test_name)))
 		i += 1
 
 	StatusLine.clear()
