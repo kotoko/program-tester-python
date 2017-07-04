@@ -34,7 +34,7 @@ import textwrap
 import gettext
 
 
-__version__ = "0.10"
+__version__ = "0.11"
 app = "program-tester"
 
 gettext.bindtextdomain(
