@@ -54,7 +54,7 @@ Create file `~/.program-tester-update.sh`:
 And paste there code for updater:
 
 ```bash
-#!/bin/bash
+#!/bin/sh
 # script's installation directory
 DIRECTORY="$HOME/.program-tester/"
 
@@ -63,7 +63,7 @@ if [ ! -d "$DIRECTORY" ]; then
     exit 1
 fi
 
-function show_error_and_exit
+show_error_and_exit ()
 {
     echo "Error occured!"
     exit 1
