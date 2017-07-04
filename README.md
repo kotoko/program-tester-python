@@ -1,103 +1,115 @@
 # program-tester.py
-Skrypt pomagający testować programy wykonywalne.
+Script for simple testing executable programs.
 
-## Opis
-Skrypt powstał podczas moich zmagań z Olimpiadą Informatyczną. Z czasem potrafił coraz więcej, a że wydaje mi się użyteczny, postanowiłem go upublicznić.
+## Description
+Script was created during my attempts in Informatic Olympic. With the passing of time script had more features, so I decided to publish it.
 
-Skrypt uruchamia program na paczce testów i porównuje standardowe wyjście z plikiem `*.out`. Nazwy testów muszą być postaci `*.in` dla danych wejściowych oraz `*.out` dla danych wyjściowych. Skrypt sprawdza tylko standardowe wyjście, wyjście diagnostyczne jest ignorowane.
+Script runs specified program on multiple tests and compare the program's output with the expected test's output. Test's input must have `*.in` extension and test's output must have `*.out` extension. Script only checks standard output, error output is ignored.
 
-Testy należy zdobyć samodzielnie :)
+You have to get tests on your own :)
 
-## Instalacja
-Poniższe polecenia należy wykonać w konsoli. Zakładam, że na co dzień korzystasz z basha. Jeśli nie, wprowadź odpowiednie poprawki.
+## Features
+* run program on all tests from specified folder
+* run program on only specified tests from specified folder
+* display only tests' results that failed
+* display all tests' results
+* display beginning of comparison of outputs, if test failed 
+* display currently executing test's name
+* measure execution time
+* display user-friendly results with colors
 
-### Minimalna instalacja
-Najpierw pobierz skrypt `program-tester.py`:
+## Installation
+Following commands should be done in linux console.
 
-    # wget -O program-tester.py https://github.com/kotoko/program-tester-python/raw/master/program-tester.py
+### Minimal installation
+Download script `program-tester.py`:
 
-Potem nadaj mu prawa do wykonywania:
+    wget -O program-tester.py https://github.com/kotoko/program-tester-python/raw/master/program-tester.py
 
-    # chmod +x program-tester.py
+Add execution permission:
 
-Na końcu uruchom:
+    chmod +x program-tester.py
 
-    # ./program-tester
+And run:
 
-### Pełna instalacja
-Zaletami pełnej instalacji są: łatwość aktualizacji skryptu, obsługa języka polskiego, wygoda uruchomienia skryptu. Wymaganiem jest wcześniejsze zainstalowanie programów: **git**, **gettext**, **make**.
+    ./program-tester
 
-Zacznij od pobrania całego projektu:
+Done!
 
-    # git clone https://github.com/kotoko/program-tester-python.git -b master --single-branch ~/.program-tester
+### Full installation
+Advantages of full installation: easy update, translation support, convenient running. Following programs must be already installed: **git**, **gettext**, **make**. I'm assuming you using bash. If not, make appropriate adjustments.
 
-Nadaj skryptowi uprawnienia do wykonywania:
+Download the project:
 
-    # chmod +x ~/.program-tester/program-tester.py
+    git clone https://github.com/kotoko/program-tester-python.git -b master --single-branch ~/.program-tester
 
-Potem stwórz plik `~/.program-tester-update.sh`:
+Add execution permission:
 
-    # nano -w ~/.program-tester-update.sh
+    chmod +x ~/.program-tester/program-tester.py
 
-Oraz wklej do niego kod aktualizujący skrypt:
+Create file `~/.program-tester-update.sh`:
+
+    nano -w ~/.program-tester-update.sh
+
+And paste there code for updater:
 
 ```bash
-#!/bin/bash
+#!/bin/sh
 # script's installation directory
-DIRECTORY="$HOME/.program-tester/"
+DIRECTORY="$HOME/.program-tester"
 
-if [ ! -d "$DIRECTORY" ]; then
-    echo "Missing directory: $DIRECTORY"
-    exit 1
-fi
-
-function show_error_and_exit
+show_error_and_exit ()
 {
-    echo "Error occured!"
+    echo "$@"
     exit 1
 }
 
+# check directory
+[ ! -d "$DIRECTORY" ] && show_error_and_exit "Missing directory: $DIRECTORY"
+
 # go to directory
-cd "$DIRECTORY" >/dev/null 2>&1 || show_error_and_exit
+cd "$DIRECTORY" >/dev/null 2>&1 || show_error_and_exit "Failed to go into directory: $DIRECTORY"
 
 # clenup directory
-git reset --hard origin/master >/dev/null 2>&1 || show_error_and_exit
-git clean -f -d >/dev/null 2>&1 || show_error_and_exit
+git reset --hard origin/master >/dev/null 2>&1 || show_error_and_exit "Failed to reset state of project"
+git clean -f -d >/dev/null 2>&1 || show_error_and_exit "Failed to remove garbage files"
 
 # update script
-git pull >/dev/null 2>&1 || show_error_and_exit
+git pull >/dev/null 2>&1 || show_error_and_exit "Failed to download update"
 
 # set executable permissions
-chmod +x program-tester.py >/dev/null 2>&1 || show_error_and_exit
+chmod +x program-tester.py >/dev/null 2>&1 || show_error_and_exit "Failed to add executable permission"
 
 # generate translations
-make clean >/dev/null 2>&1 || show_error_and_exit
-make all >/dev/null 2>&1 || show_error_and_exit
+make clean >/dev/null 2>&1 || show_error_and_exit "Failed to delete old translations' binaries"
+make all >/dev/null 2>&1 || show_error_and_exit "Failed to generate translations' binaries"
 
 echo "Updated successfully!"
 exit
 ```
 
-Zapisz plik i zamknij edytor. Nadaj uprawnienia do wykonywania:
+Save file and close editor. Add execution permission for updater:
 
-    # chmod +x ~/.program-tester-update.sh
+    chmod +x ~/.program-tester-update.sh
 
-Dodaj aliasy, by można było łatwo uruchomić skrypt:
+Add aliases for convenient usage:
 
-    # echo 'alias program-tester="~/.program-tester/program-tester.py"' >> ~/.bash_aliases
-    # echo 'alias program-tester-update="~/.program-tester-update.sh"' >> ~/.bash_aliases
+    echo 'alias program-tester="~/.program-tester/program-tester.py"' >> ~/.bash_aliases
+    echo 'alias program-tester-update="~/.program-tester-update.sh"' >> ~/.bash_aliases
 
-Na końcu zrestartuj wszystkie konsole, które były wcześniej uruchomione, żeby zmiany weszły w życie. Wylogowanie się i zalogowanie ponownie powinno wystarczyć.
+At the end restart all consoles, which was already launched. Logging out and then logging in should be sufficient.
 
-Aby uruchomić skrypt wpisz:
+Done!
 
-    # program-tester
+If you want to run script:
 
-Aby zaktualizować skrypt do najnowszej wersji wpisz:
+    program-tester
 
-    # program-tester-update
+If you want to update script:
+
+    program-tester-update
 
 ## TODO
-- [ ] zmierzyć zużytą pamięć przez program
-- [ ] nie uruchamiać programu po raz drugi podczas mierzenia czasu
+- [ ] measure memory used by program
+- [ ] do not run program second time to measure time
 

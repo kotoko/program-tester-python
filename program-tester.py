@@ -2,6 +2,27 @@
 #
 # Copyright (c) 2017 kotoko <kotoko@users.noreply.github.com>
 #
+# MIT License
+# -----------
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
 
 import argparse
 import sys
@@ -13,7 +34,7 @@ import textwrap
 import gettext
 
 
-__version__ = "0.10"
+__version__ = "0.11"
 app = "program-tester"
 
 gettext.bindtextdomain(
@@ -58,13 +79,13 @@ class StatusLine(object):
 
 	@classmethod
 	def print(cls, text):
-		if Options.show_status_line == 1:
+		if Options.show_status_line:
 			print(text, end="", flush=True)
 			cls.length += len(text)
 
 	@classmethod
 	def clear(cls):
-		if Options.show_status_line == 1:
+		if Options.show_status_line:
 			print("\r", end="")
 			print(" " * cls.length, end="")
 			print("\r", end="", flush=True)
@@ -80,15 +101,15 @@ class Options(object):
 	program = ""
 	tests_folder = ""
 	tests_list = []
-	force_colors = 0
-	show_time = 1
-	show_comparision = 1
-	show_summary = 1
-	show_test_ok = 1
-	show_test_wrong = 1
-	show_test_completed = 1
-	show_test_error = 1
-	show_status_line = 1
+	force_colors = False
+	show_time = True
+	show_comparision = True
+	show_summary = True
+	show_test_ok = True
+	show_test_wrong = True
+	show_test_completed = True
+	show_test_error = True
+	show_status_line = True
 
 
 class Results(object):
@@ -144,10 +165,9 @@ class MultilineFormatter(argparse.HelpFormatter):
 
 
 def check_terminal():
-	if not Options.force_colors:
-		if not sys.stdout.isatty():
-			Colors.turn_off()
-			Options.show_status_line = 0
+	if not (Options.force_colors or sys.stdout.isatty()):
+		Colors.turn_off()
+		Options.show_status_line = False
 
 
 def read_arguments():
@@ -276,38 +296,38 @@ def parse_arguments(arg):
 		Options.tests_list = arg.test
 
 	if arg.portable:
-		Options.show_time = 0
-		Options.show_comparision = 0
+		Options.show_time = False
+		Options.show_comparision = False
 
 	if arg.quiet:
-		Options.show_test_ok = 0
-		Options.show_test_completed = 0
+		Options.show_test_ok = False
+		Options.show_test_completed = False
 
 	if arg.no_time:
-		Options.show_time = 0
+		Options.show_time = False
 
 	if arg.no_compare:
-		Options.show_comparision = 0
+		Options.show_comparision = False
 
 	if arg.no_ok:
-		Options.show_test_ok = 0
-		Options.show_test_completed = 0
+		Options.show_test_ok = False
+		Options.show_test_completed = False
 
 	if arg.no_error:
-		Options.show_test_error = 0
-		Options.show_test_wrong = 0
+		Options.show_test_error = False
+		Options.show_test_wrong = False
 
 	if arg.color:
-		Options.force_colors = 1
+		Options.force_colors = True
 
 	if arg.no_color:
 		Colors.turn_off()
 
 	if arg.no_summary:
-		Options.show_summary = 0
+		Options.show_summary = False
 
 	if arg.no_status:
-		Options.show_status_line = 0
+		Options.show_status_line = False
 
 
 def check_files():
