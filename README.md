@@ -37,7 +37,7 @@ And run:
 Done!
 
 ### Full installation
-Advantages of full installation: easy update, translation support, convenient running. Following programs must be already installed: **git**, **gettext**, **make**.
+Advantages of full installation: easy update, translation support, convenient running. Following programs must be already installed: **git**, **gettext**, **make**. I'm assuming you using bash. If not, make appropriate adjustments.
 
 Download the project:
 
