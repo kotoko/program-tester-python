@@ -15,7 +15,6 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: program-tester.py\n"
 
-#: program-tester.py:158
 msgid ""
 "Program tester. Script runs program on multiple tests and checks \t"
 "\tprogram's outputs. Possible responses: OK, COMPLETED, WRONG ANSWER, "
@@ -31,19 +30,15 @@ msgstr ""
 "ODPOWIEDŹ - program zakończył się, ale dał inną odpowiedź |n BŁĄD WYKONANIA "
 "- program zwrócił kod wyjścia różny od zera"
 
-#: program-tester.py:171
 msgid "show help message"
 msgstr "wyświetl pomoc"
 
-#: program-tester.py:177
 msgid "path to executable binary"
 msgstr "ścieżka do programu wykonywalnego"
 
-#: program-tester.py:183
 msgid "path to folder with tests (contains files *.in and *.out)"
 msgstr "ścieżka do folderu z testami (zawiera pliki *.in oraz *.out)"
 
-#: program-tester.py:190
 msgid ""
 "test's name without suffix .in; program is running only on target test; \t"
 "\tparameter can be specified multiple times"
@@ -51,122 +46,92 @@ msgstr ""
 "nazwa testu bez sufiksu .in; program jest testowany na konkretnym teście; "
 "parametr może wystąpić więcej niż raz"
 
-#: program-tester.py:197
 msgid "alias for -TC"
 msgstr "alias dla -TC"
 
-#: program-tester.py:203
 msgid "alias for -O"
 msgstr "alias dla -O"
 
-#: program-tester.py:210
 msgid "do not show execution time"
 msgstr "nie wyświetlaj czasu działania programu"
 
-#: program-tester.py:217
 msgid "do not show comparison of program's output and correct answer"
 msgstr "nie wyświetlaj porównania odpowiedzi błędnej i poprawnej"
 
-#: program-tester.py:224
 msgid "do not show tests passed correctly"
 msgstr "nie wyświetlaj testów, które program przeszedł poprawnie"
 
-#: program-tester.py:231
 msgid "do not show tests passed incorrectly"
 msgstr "nie wyświetlaj testów, których program nie przeszedł poprawnie"
 
-#: program-tester.py:239
 msgid "force color even when stdout is not a tty"
 msgstr "wymuś włączenie kolorów"
 
-#: program-tester.py:245
 msgid "turn off color"
 msgstr "wyłącz kolory"
 
-#: program-tester.py:251
 msgid "do not show summary"
 msgstr "nie wyświetlaj podsumowania"
 
-#: program-tester.py:257
 msgid "do not show status line"
 msgstr "nie wyświetlaj linii statusu"
 
-#: program-tester.py:264
 msgid "show script's version number"
 msgstr "wyświetl wersję skryptu"
 
-#: program-tester.py:315
 msgid "Executable binary does not exist"
 msgstr "Plik wykonywalny nie istnieje"
 
-#: program-tester.py:319
 msgid "Folder with tests does not exist"
 msgstr "Folder z testami nie istnieje"
 
-#: program-tester.py:326
 msgid "Ok"
 msgstr "Ok"
 
-#: program-tester.py:329
 msgid "Completed"
 msgstr "Skończony"
 
-#: program-tester.py:331
 msgid "Wrong answer"
 msgstr "Zła odpowiedź"
 
-#: program-tester.py:333
 msgid "Runtime error"
 msgstr "Błąd wykonania"
 
-#: program-tester.py:338
 msgid "time"
 msgstr "czas"
 
-#: program-tester.py:343
 msgid "Test"
 msgstr "Test"
 
-#: program-tester.py:350
 msgid "OK"
 msgstr "OK"
 
-#: program-tester.py:356
 msgid "WRONG ANSWER"
 msgstr "ZŁA ODPOWIEDŹ"
 
-#: program-tester.py:359
 msgid "program's output"
 msgstr "wyjście programu"
 
-#: program-tester.py:359
 msgid "correct answer"
 msgstr "poprawne wyjście"
 
-#: program-tester.py:365
 msgid "COMPLETED"
 msgstr "SKOŃCZONY"
 
-#: program-tester.py:371
 msgid "RUNTIME ERROR"
 msgstr "BŁĄD WYKONANIA"
 
-#: program-tester.py:489
 msgid "Running"
 msgstr "Uruchamianie"
 
-#: program-tester.py:490
 msgid "of"
 msgstr "z"
 
-#: program-tester.py:521
 msgid "Interrupted"
 msgstr "Przerwane"
 
-#: program-tester.py:525
 msgid "Python's version"
 msgstr "Wersja pythona"
 
-#: program-tester.py:529
 msgid "Required python's version"
 msgstr "Wymagana wersja pythona"
