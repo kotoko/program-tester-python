@@ -56,35 +56,33 @@ And paste there code for updater:
 ```bash
 #!/bin/sh
 # script's installation directory
-DIRECTORY="$HOME/.program-tester/"
-
-if [ ! -d "$DIRECTORY" ]; then
-    echo "Missing directory: $DIRECTORY"
-    exit 1
-fi
+DIRECTORY="$HOME/.program-tester"
 
 show_error_and_exit ()
 {
-    echo "Error occured!"
+    echo "$@"
     exit 1
 }
 
+# check directory
+[ ! -d "$DIRECTORY" ] && show_error_and_exit "Missing directory: $DIRECTORY"
+
 # go to directory
-cd "$DIRECTORY" >/dev/null 2>&1 || show_error_and_exit
+cd "$DIRECTORY" >/dev/null 2>&1 || show_error_and_exit "Failed to go into directory: $DIRECTORY"
 
 # clenup directory
-git reset --hard origin/master >/dev/null 2>&1 || show_error_and_exit
-git clean -f -d >/dev/null 2>&1 || show_error_and_exit
+git reset --hard origin/master >/dev/null 2>&1 || show_error_and_exit "Failed to reset state of project"
+git clean -f -d >/dev/null 2>&1 || show_error_and_exit "Failed to remove garbage files"
 
 # update script
-git pull >/dev/null 2>&1 || show_error_and_exit
+git pull >/dev/null 2>&1 || show_error_and_exit "Failed to download update"
 
 # set executable permissions
-chmod +x program-tester.py >/dev/null 2>&1 || show_error_and_exit
+chmod +x program-tester.py >/dev/null 2>&1 || show_error_and_exit "Failed to add executable permission"
 
 # generate translations
-make clean >/dev/null 2>&1 || show_error_and_exit
-make all >/dev/null 2>&1 || show_error_and_exit
+make clean >/dev/null 2>&1 || show_error_and_exit "Failed to delete old translations' binaries"
+make all >/dev/null 2>&1 || show_error_and_exit "Failed to generate translations' binaries"
 
 echo "Updated successfully!"
 exit
