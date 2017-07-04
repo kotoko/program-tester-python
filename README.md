@@ -24,15 +24,15 @@ Following commands should be done in linux console.
 ### Minimal installation
 Download script `program-tester.py`:
 
-    # wget -O program-tester.py https://github.com/kotoko/program-tester-python/raw/master/program-tester.py
+    wget -O program-tester.py https://github.com/kotoko/program-tester-python/raw/master/program-tester.py
 
 Add execution permission:
 
-    # chmod +x program-tester.py
+    chmod +x program-tester.py
 
 And run:
 
-    # ./program-tester
+    ./program-tester
 
 Done!
 
@@ -41,15 +41,15 @@ Advantages of full installation: easy update, translation support, convenient ru
 
 Download the project:
 
-    # git clone https://github.com/kotoko/program-tester-python.git -b master --single-branch ~/.program-tester
+    git clone https://github.com/kotoko/program-tester-python.git -b master --single-branch ~/.program-tester
 
 Add execution permission:
 
-    # chmod +x ~/.program-tester/program-tester.py
+    chmod +x ~/.program-tester/program-tester.py
 
 Create file `~/.program-tester-update.sh`:
 
-    # nano -w ~/.program-tester-update.sh
+    nano -w ~/.program-tester-update.sh
 
 And paste there code for updater:
 
@@ -92,12 +92,12 @@ exit
 
 Save file and close editor. Add execution permission for updater:
 
-    # chmod +x ~/.program-tester-update.sh
+    chmod +x ~/.program-tester-update.sh
 
 Add aliases for convenient usage:
 
-    # echo 'alias program-tester="~/.program-tester/program-tester.py"' >> ~/.bash_aliases
-    # echo 'alias program-tester-update="~/.program-tester-update.sh"' >> ~/.bash_aliases
+    echo 'alias program-tester="~/.program-tester/program-tester.py"' >> ~/.bash_aliases
+    echo 'alias program-tester-update="~/.program-tester-update.sh"' >> ~/.bash_aliases
 
 At the end restart all consoles, which was already launched. Logging out and then logging in should be sufficient.
 
@@ -105,11 +105,11 @@ Done!
 
 If you want to run script:
 
-    # program-tester
+    program-tester
 
 If you want to update script:
 
-    # program-tester-update
+    program-tester-update
 
 ## TODO
 - [ ] measure memory used by program
