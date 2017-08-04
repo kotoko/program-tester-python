@@ -19,7 +19,7 @@ You have to get tests on your own :)
 * display user-friendly results with colors
 
 ## Installation
-Following commands should be done in linux console.
+Following commands should be typed in linux terminal.
 
 ### Minimal installation
 Download script `program-tester.py`:
@@ -32,12 +32,12 @@ Add execution permission:
 
 And run:
 
-    ./program-tester
+    ./program-tester.py
 
 Done!
 
 ### Full installation
-Advantages of full installation: easy update, translation support, convenient running. Following programs must be already installed: **git**, **gettext**, **make**. I'm assuming you using bash. If not, make appropriate adjustments.
+Advantages of full installation: easy update, localisation support, convenient running. Following programs must be already installed: **git**, **gettext**, **make**. I'm assuming that your shell is bash. If not, make appropriate adjustments.
 
 Download the project:
 
@@ -51,7 +51,7 @@ Create file `~/.program-tester-update.sh`:
 
     nano -w ~/.program-tester-update.sh
 
-And paste there code for updater:
+And copy-paste there code for updater:
 
 ```bash
 #!/bin/sh
@@ -97,7 +97,7 @@ Add aliases for convenient usage:
     echo 'alias program-tester="~/.program-tester/program-tester.py"' >> ~/.bash_aliases
     echo 'alias program-tester-update="~/.program-tester-update.sh"' >> ~/.bash_aliases
 
-At the end restart all consoles, which was already launched. Logging out and then logging in should be sufficient.
+Restart all terminals, which was already launched. Logging out and then logging in should be sufficient.
 
 Done!
 
