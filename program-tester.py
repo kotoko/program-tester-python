@@ -32,6 +32,7 @@ import subprocess
 import timeit
 import textwrap
 import gettext
+import enum
 
 
 __version__ = "0.11"
@@ -142,6 +143,10 @@ class Results(object):
 
 	def get_error(self):
 		return self.tests_error
+
+
+class Result(enum.Enum):
+	ok,	wrong_answer, completed, runtime_error = range(4)
 
 
 # See: http://stackoverflow.com/a/32974697
@@ -363,14 +368,12 @@ def print_test_result(test_name, status, time=-1, comparison="", distance=0):
 	prefix = _("Test") + " "
 	prefix = prefix + Colors.test_name + test_name + Colors.reset + separator
 
-	# ok
-	if status == 0:
+	if status == Result.ok:
 		if Options.show_test_ok:
 			StatusLine.clear()
 			print(prefix + Colors.ok + _("OK") + Colors.reset)
 			print_time(time)
-	# wrong answer
-	elif status == 1:
+	elif status == Result.wrong_answer:
 		if Options.show_test_wrong:
 			StatusLine.clear()
 			print(prefix + Colors.wrong + _("WRONG ANSWER") + Colors.reset)
@@ -378,14 +381,12 @@ def print_test_result(test_name, status, time=-1, comparison="", distance=0):
 				print(comparison)
 				print("(" + _("program's output") + "  |  " + _("correct answer") + ")")
 			print_time(time)
-	# completed
-	elif status == 2:
+	elif status == Result.completed:
 		if Options.show_test_completed:
 			StatusLine.clear()
 			print(prefix + Colors.completed + _("COMPLETED") + Colors.reset)
 			print_time(time)
-	# runtime error
-	elif status == 3:
+	elif status == Result.runtime_error:
 		if Options.show_test_error:
 			StatusLine.clear()
 			print(prefix + Colors.error + _("RUNTIME ERROR") + Colors.reset)
@@ -440,7 +441,7 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 		if process.returncode != 0:
 			results.add_error()
 
-			print_test_result(test_name, 3, time, distance=print_distance)
+			print_test_result(test_name, Result.runtime_error, time, distance=print_distance)
 		else:
 			try:
 				with open(test_out, "rt") as file_answer:
@@ -448,7 +449,7 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 					if file_answer.read().strip() == file_out.read().strip():
 						results.add_ok()
 
-						print_test_result(test_name, 0, time, distance=print_distance)
+						print_test_result(test_name, Result.ok, time, distance=print_distance)
 					else:
 						results.add_wrong()
 
@@ -463,11 +464,11 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 							+ "  |  " \
 							+ make_prefix(answer.strip(), 25)
 
-						print_test_result(test_name, 1, time, comparison, distance=print_distance)
+						print_test_result(test_name, Result.wrong_answer, time, comparison, distance=print_distance)
 			except OSError:
 				results.add_completed()
 
-				print_test_result(test_name, 2, time, distance=print_distance)
+				print_test_result(test_name, Result.completed, time, distance=print_distance)
 
 
 def run_tests():
@@ -537,7 +538,8 @@ if __name__ == "__main__":
 	# 3.2 - PEP 389, module argparse
 	# 3.3 - PEP 3151, OSError and IOError means the same
 	# 3.3 - subprocess, new constant DEVNULL
-	minimum_version = (3, 3)
+	# 3.4 - PEP 435, Enum type
+	minimum_version = (3, 4)
 	if sys.version_info >= minimum_version:
 		try:
 			main()
