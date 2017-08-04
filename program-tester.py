@@ -38,6 +38,7 @@ import timeit
 __version__ = "0.11"
 app = "program-tester"
 
+
 gettext.bindtextdomain(
 		app,
 		os.path.join(
@@ -365,17 +366,16 @@ def print_time(time):
 
 def print_test_result(test_name, status, time=-1, comparison="", distance=0):
 	separator = ": " + (" " * distance)
-	prefix = _("Test") + " "
-	prefix = prefix + Colors.test_name + test_name + Colors.reset + separator
+	prefix = _("Test") + " " + Colors.test_name + test_name + Colors.reset + separator
+
+	StatusLine.clear()
 
 	if status == Result.ok:
 		if Options.show_test_ok:
-			StatusLine.clear()
 			print(prefix + Colors.ok + _("OK") + Colors.reset)
 			print_time(time)
 	elif status == Result.wrong_answer:
 		if Options.show_test_wrong:
-			StatusLine.clear()
 			print(prefix + Colors.wrong + _("WRONG ANSWER") + Colors.reset)
 			if Options.show_comparision:
 				print(comparison)
@@ -383,12 +383,10 @@ def print_test_result(test_name, status, time=-1, comparison="", distance=0):
 			print_time(time)
 	elif status == Result.completed:
 		if Options.show_test_completed:
-			StatusLine.clear()
 			print(prefix + Colors.completed + _("COMPLETED") + Colors.reset)
 			print_time(time)
 	elif status == Result.runtime_error:
 		if Options.show_test_error:
-			StatusLine.clear()
 			print(prefix + Colors.error + _("RUNTIME ERROR") + Colors.reset)
 			print_time(time)
 	else:
@@ -397,17 +395,17 @@ def print_test_result(test_name, status, time=-1, comparison="", distance=0):
 
 def make_prefix(text, length):
 	text_list = text.split("\n", 1)
-	text = text_list[0]
-	if len(text) <= length:
+	first_line = text_list[0]
+	if len(first_line) <= length:
 		if len(text_list) > 1:
-			if len(text) <= length-3:
-				return "%s..." % (text[:length])
+			if len(first_line) <= length-3:
+				return "%s..." % (first_line[:length])
 			else:
-				return "%s..." % (text[:length - 3])
+				return "%s..." % (first_line[:length - 3])
 		else:
-			return text
+			return first_line
 	else:
-		return "%s..." % (text[:length - 3])
+		return "%s..." % (first_line[:length - 3])
 
 
 def run_test(test_name, test_in, test_out, results, print_distance=0):
@@ -426,10 +424,17 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 			start = timeit.default_timer()
 			try:
 				time = timeit.timeit(
-					stmt="subprocess.check_call(PROGRAM, stdin=file_in, stdout=subprocess.DEVNULL,\
-					stderr=subprocess.DEVNULL, shell=False)",
-					setup="import subprocess; import os; PROGRAM='" + Options.program
-					+ "'; file_in = open( '" + test_in + "' , 'r');",
+					setup="import subprocess;\
+					import os;\
+					PROGRAM='" + Options.program + "';\
+					file_in = open( '" + test_in + "' , 'r');",
+					stmt="subprocess.check_call(\
+					PROGRAM,\
+					stdin=file_in,\
+					stdout=subprocess.DEVNULL,\
+					stderr=subprocess.DEVNULL,\
+					shell=False\
+					)",
 					number=1
 				)
 			except subprocess.CalledProcessError:
@@ -446,6 +451,7 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 			try:
 				with open(test_out, "rt") as file_answer:
 					file_out.seek(0)
+
 					if file_answer.read().strip() == file_out.read().strip():
 						results.add_ok()
 
