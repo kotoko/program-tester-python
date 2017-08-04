@@ -504,9 +504,9 @@ def run_tests():
 					file_out = os.path.join(Options.tests_folder, file)
 					tests[name] = (test[0], file_out)
 
-	max_name_length = 0
+	name_max_length = 0
 	for (test_name, test_files) in tests.items():
-		max_name_length = max(max_name_length, len(test_name))
+		name_max_length = max(name_max_length, len(test_name))
 
 	i = 1
 	for (test_name, test_files) in sorted(tests.items()):
@@ -515,7 +515,7 @@ def run_tests():
 			+ _("of") + " " + Colors.yellow + str(len(tests)) + Colors.reset + ") "
 			+ Colors.test_name + test_name + Colors.reset
 		)
-		run_test(test_name, test_files[0], test_files[1], results, print_distance=(max_name_length - len(test_name)))
+		run_test(test_name, test_files[0], test_files[1], results, print_distance=(name_max_length - len(test_name)))
 		i += 1
 
 	StatusLine.clear()
