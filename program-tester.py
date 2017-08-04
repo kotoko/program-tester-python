@@ -25,14 +25,14 @@
 #
 
 import argparse
-import sys
-import os
-import tempfile
-import subprocess
-import timeit
-import textwrap
-import gettext
 import enum
+import gettext
+import os
+import subprocess
+import sys
+import tempfile
+import textwrap
+import timeit
 
 
 __version__ = "0.11"
