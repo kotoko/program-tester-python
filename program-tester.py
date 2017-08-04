@@ -364,8 +364,8 @@ def print_time(time):
 		print(_("time") + ": {:.2f}\n".format(time))
 
 
-def print_test_result(test_name, status, time=-1, comparison="", distance=0):
-	separator = ": " + (" " * distance)
+def print_test_result(test_name, status, time=-1, comparison="", name_max_length=0):
+	separator = ": " + (" " * (name_max_length - len(test_name)))
 	prefix = _("Test") + " " + Colors.test_name + test_name + Colors.reset + separator
 
 	StatusLine.clear()
@@ -408,7 +408,7 @@ def make_prefix(text, length):
 		return "%s..." % (first_line[:length - 3])
 
 
-def run_test(test_name, test_in, test_out, results, print_distance=0):
+def run_test(test_name, test_in, test_out, results, name_max_length=0):
 	with open(test_in, "rt") as file_in, tempfile.SpooledTemporaryFile(mode="r+t") as file_out:
 		process = subprocess.Popen(
 			Options.program,
@@ -446,7 +446,7 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 		if process.returncode != 0:
 			results.add_error()
 
-			print_test_result(test_name, Result.runtime_error, time, distance=print_distance)
+			print_test_result(test_name, Result.runtime_error, time, name_max_length=name_max_length)
 		else:
 			try:
 				with open(test_out, "rt") as file_answer:
@@ -455,7 +455,7 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 					if file_answer.read().strip() == file_out.read().strip():
 						results.add_ok()
 
-						print_test_result(test_name, Result.ok, time, distance=print_distance)
+						print_test_result(test_name, Result.ok, time, name_max_length=name_max_length)
 					else:
 						results.add_wrong()
 
@@ -470,11 +470,11 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 							+ "  |  " \
 							+ make_prefix(answer.strip(), 25)
 
-						print_test_result(test_name, Result.wrong_answer, time, comparison, distance=print_distance)
+						print_test_result(test_name, Result.wrong_answer, time, comparison, name_max_length=name_max_length)
 			except OSError:
 				results.add_completed()
 
-				print_test_result(test_name, Result.completed, time, distance=print_distance)
+				print_test_result(test_name, Result.completed, time, name_max_length=name_max_length)
 
 
 def run_tests():
@@ -521,7 +521,7 @@ def run_tests():
 			+ _("of") + " " + Colors.yellow + str(len(tests)) + Colors.reset + ") "
 			+ Colors.test_name + test_name + Colors.reset
 		)
-		run_test(test_name, test_files[0], test_files[1], results, print_distance=(name_max_length - len(test_name)))
+		run_test(test_name, test_files[0], test_files[1], results, name_max_length=name_max_length)
 		i += 1
 
 	StatusLine.clear()
