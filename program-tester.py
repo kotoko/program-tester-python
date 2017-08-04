@@ -56,10 +56,11 @@ class Colors(object):
 	yellow = "\033[1m\033[93m"
 	red = "\033[1m\033[91m"
 	reset = "\033[1m\033[0m"
+
 	ok = green
 	completed = yellow
-	wrong = red
-	error = red
+	wrong_answer = red
+	runtime_error = red
 	test_name = white
 
 	@classmethod
@@ -69,10 +70,11 @@ class Colors(object):
 		cls.yellow = ""
 		cls.red = ""
 		cls.reset = ""
+
 		cls.ok = ""
 		cls.completed = ""
-		cls.wrong = ""
-		cls.error = ""
+		cls.wrong_answer = ""
+		cls.runtime_error = ""
 		cls.test_name = ""
 
 
@@ -354,9 +356,9 @@ def print_tests_summary(results):
 	if results.get_completed() > 0:
 		print(_("Completed") + ": " + Colors.completed + str(results.get_completed()) + Colors.reset)
 
-	print(_("Wrong answer") + ": " + Colors.wrong + str(results.get_wrong()) + Colors.reset)
+	print(_("Wrong answer") + ": " + Colors.wrong_answer + str(results.get_wrong()) + Colors.reset)
 
-	print(_("Runtime error") + ": " + Colors.error + str(results.get_error()) + Colors.reset)
+	print(_("Runtime error") + ": " + Colors.runtime_error + str(results.get_error()) + Colors.reset)
 
 
 def print_time(time):
@@ -376,7 +378,7 @@ def print_test_result(test_name, status, time=-1, comparison="", name_max_length
 			print_time(time)
 	elif status == Result.wrong_answer:
 		if Options.show_test_wrong:
-			print(prefix + Colors.wrong + _("WRONG ANSWER") + Colors.reset)
+			print(prefix + Colors.wrong_answer + _("WRONG ANSWER") + Colors.reset)
 			if Options.show_comparision:
 				print(comparison)
 				print("(" + _("program's output") + "  |  " + _("correct answer") + ")")
@@ -387,7 +389,7 @@ def print_test_result(test_name, status, time=-1, comparison="", name_max_length
 			print_time(time)
 	elif status == Result.runtime_error:
 		if Options.show_test_error:
-			print(prefix + Colors.error + _("RUNTIME ERROR") + Colors.reset)
+			print(prefix + Colors.runtime_error + _("RUNTIME ERROR") + Colors.reset)
 			print_time(time)
 	else:
 		pass
