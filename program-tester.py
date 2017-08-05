@@ -149,7 +149,7 @@ class Results(object):
 
 
 class Result(enum.Enum):
-	ok,	wrong_answer, completed, runtime_error = range(4)
+	ok, wrong_answer, completed, runtime_error = range(4)
 
 
 # See: http://stackoverflow.com/a/32974697
