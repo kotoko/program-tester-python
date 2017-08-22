@@ -105,6 +105,7 @@ class Options(object):
 	program = ""
 	tests_folder = ""
 	tests_list = []
+	skip_tests_list = []
 	force_colors = False
 	show_time = True
 	show_comparision = True
@@ -220,6 +221,14 @@ def read_arguments():
 	)
 
 	parser.add_argument(
+		"--skip",
+		type=str,
+		action="append",
+		help=_("test's name without suffix .in; skip target test; \
+			parameter can be specified multiple times")
+	)
+
+	parser.add_argument(
 		"--portable",
 		action="store_true",
 		help=_("alias for -TC")
@@ -302,6 +311,9 @@ def parse_arguments(arg):
 
 	if arg.test:
 		Options.tests_list = arg.test
+
+	if arg.skip:
+		Options.skip_tests_list = list(map(str.lower, arg.skip))
 
 	if arg.portable:
 		Options.show_time = False
@@ -486,7 +498,8 @@ def run_tests():
 	if Options.tests_list:
 		for file in os.listdir(Options.tests_folder):
 			for name in Options.tests_list:
-				if file.lower().endswith(".in") and name == os.path.splitext(file)[0]:
+				if name not in Options.skip_tests_list and file.lower().endswith(".in") \
+						and name == os.path.splitext(file)[0]:
 					file = os.path.join(Options.tests_folder, file)
 					tests[name] = (file, "")
 
@@ -501,8 +514,9 @@ def run_tests():
 		for file in os.listdir(Options.tests_folder):
 			if file.lower().endswith(".in"):
 				name = os.path.splitext(file)[0]
-				file_in = os.path.join(Options.tests_folder, file)
-				tests[name] = (file_in, "")
+				if name not in Options.skip_tests_list:
+					file_in = os.path.join(Options.tests_folder, file)
+					tests[name] = (file_in, "")
 
 		for file in os.listdir(Options.tests_folder):
 			if file.lower().endswith(".out"):

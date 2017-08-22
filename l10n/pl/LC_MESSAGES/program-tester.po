@@ -41,6 +41,13 @@ msgstr ""
 "nazwa testu bez sufiksu .in; program jest testowany na konkretnym teście; "
 "parametr może wystąpić więcej niż raz"
 
+msgid ""
+"test's name without suffix .in; skip target test; \t\t\tparameter can be "
+"specified multiple times"
+msgstr ""
+"nazwa testu bez sufiksu .in; pomiń konkretny test; "
+"parametr może wystąpić więcej niż raz"
+
 msgid "alias for -TC"
 msgstr "alias dla -TC"
 

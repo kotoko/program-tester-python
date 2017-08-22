@@ -32,6 +32,11 @@ msgid ""
 "\tparameter can be specified multiple times"
 msgstr ""
 
+msgid ""
+"test's name without suffix .in; skip target test; \t\t\tparameter can be "
+"specified multiple times"
+msgstr ""
+
 msgid "alias for -TC"
 msgstr ""
 
