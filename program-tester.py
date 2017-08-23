@@ -25,17 +25,19 @@
 #
 
 import argparse
-import sys
-import os
-import tempfile
-import subprocess
-import timeit
-import textwrap
+import enum
 import gettext
+import os
+import subprocess
+import sys
+import tempfile
+import textwrap
+import timeit
 
 
-__version__ = "0.11"
+__version__ = "0.12"
 app = "program-tester"
+
 
 gettext.bindtextdomain(
 		app,
@@ -54,10 +56,11 @@ class Colors(object):
 	yellow = "\033[1m\033[93m"
 	red = "\033[1m\033[91m"
 	reset = "\033[1m\033[0m"
+
 	ok = green
 	completed = yellow
-	wrong = red
-	error = red
+	wrong_answer = red
+	runtime_error = red
 	test_name = white
 
 	@classmethod
@@ -67,10 +70,11 @@ class Colors(object):
 		cls.yellow = ""
 		cls.red = ""
 		cls.reset = ""
+
 		cls.ok = ""
 		cls.completed = ""
-		cls.wrong = ""
-		cls.error = ""
+		cls.wrong_answer = ""
+		cls.runtime_error = ""
 		cls.test_name = ""
 
 
@@ -101,6 +105,7 @@ class Options(object):
 	program = ""
 	tests_folder = ""
 	tests_list = []
+	skip_tests_list = []
 	force_colors = False
 	show_time = True
 	show_comparision = True
@@ -142,6 +147,10 @@ class Results(object):
 
 	def get_error(self):
 		return self.tests_error
+
+
+class Result(enum.Enum):
+	ok, wrong_answer, completed, runtime_error = range(4)
 
 
 # See: http://stackoverflow.com/a/32974697
@@ -209,6 +218,14 @@ def read_arguments():
 		action="append",
 		help=_("test's name without suffix .in; program is running only on target test; \
 		parameter can be specified multiple times")
+	)
+
+	parser.add_argument(
+		"--skip",
+		type=str,
+		action="append",
+		help=_("test's name without suffix .in; skip target test; \
+			parameter can be specified multiple times")
 	)
 
 	parser.add_argument(
@@ -295,6 +312,9 @@ def parse_arguments(arg):
 	if arg.test:
 		Options.tests_list = arg.test
 
+	if arg.skip:
+		Options.skip_tests_list = list(map(str.lower, arg.skip))
+
 	if arg.portable:
 		Options.show_time = False
 		Options.show_comparision = False
@@ -348,9 +368,9 @@ def print_tests_summary(results):
 	if results.get_completed() > 0:
 		print(_("Completed") + ": " + Colors.completed + str(results.get_completed()) + Colors.reset)
 
-	print(_("Wrong answer") + ": " + Colors.wrong + str(results.get_wrong()) + Colors.reset)
+	print(_("Wrong answer") + ": " + Colors.wrong_answer + str(results.get_wrong()) + Colors.reset)
 
-	print(_("Runtime error") + ": " + Colors.error + str(results.get_error()) + Colors.reset)
+	print(_("Runtime error") + ": " + Colors.runtime_error + str(results.get_error()) + Colors.reset)
 
 
 def print_time(time):
@@ -358,37 +378,30 @@ def print_time(time):
 		print(_("time") + ": {:.2f}\n".format(time))
 
 
-def print_test_result(test_name, status, time=-1, comparison="", distance=0):
-	separator = ": " + (" " * distance)
-	prefix = _("Test") + " "
-	prefix = prefix + Colors.test_name + test_name + Colors.reset + separator
+def print_test_result(test_name, status, time=-1, comparison="", name_max_length=0):
+	separator = ": " + (" " * (name_max_length - len(test_name)))
+	prefix = _("Test") + " " + Colors.test_name + test_name + Colors.reset + separator
 
-	# ok
-	if status == 0:
+	StatusLine.clear()
+
+	if status == Result.ok:
 		if Options.show_test_ok:
-			StatusLine.clear()
 			print(prefix + Colors.ok + _("OK") + Colors.reset)
 			print_time(time)
-	# wrong answer
-	elif status == 1:
+	elif status == Result.wrong_answer:
 		if Options.show_test_wrong:
-			StatusLine.clear()
-			print(prefix + Colors.wrong + _("WRONG ANSWER") + Colors.reset)
+			print(prefix + Colors.wrong_answer + _("WRONG ANSWER") + Colors.reset)
 			if Options.show_comparision:
 				print(comparison)
 				print("(" + _("program's output") + "  |  " + _("correct answer") + ")")
 			print_time(time)
-	# completed
-	elif status == 2:
+	elif status == Result.completed:
 		if Options.show_test_completed:
-			StatusLine.clear()
 			print(prefix + Colors.completed + _("COMPLETED") + Colors.reset)
 			print_time(time)
-	# runtime error
-	elif status == 3:
+	elif status == Result.runtime_error:
 		if Options.show_test_error:
-			StatusLine.clear()
-			print(prefix + Colors.error + _("RUNTIME ERROR") + Colors.reset)
+			print(prefix + Colors.runtime_error + _("RUNTIME ERROR") + Colors.reset)
 			print_time(time)
 	else:
 		pass
@@ -396,20 +409,20 @@ def print_test_result(test_name, status, time=-1, comparison="", distance=0):
 
 def make_prefix(text, length):
 	text_list = text.split("\n", 1)
-	text = text_list[0]
-	if len(text) <= length:
+	first_line = text_list[0]
+	if len(first_line) <= length:
 		if len(text_list) > 1:
-			if len(text) <= length-3:
-				return "%s..." % (text[:length])
+			if len(first_line) <= length-3:
+				return "%s..." % (first_line[:length])
 			else:
-				return "%s..." % (text[:length - 3])
+				return "%s..." % (first_line[:length - 3])
 		else:
-			return text
+			return first_line
 	else:
-		return "%s..." % (text[:length - 3])
+		return "%s..." % (first_line[:length - 3])
 
 
-def run_test(test_name, test_in, test_out, results, print_distance=0):
+def run_test(test_name, test_in, test_out, results, name_max_length=0):
 	with open(test_in, "rt") as file_in, tempfile.SpooledTemporaryFile(mode="r+t") as file_out:
 		process = subprocess.Popen(
 			Options.program,
@@ -425,10 +438,17 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 			start = timeit.default_timer()
 			try:
 				time = timeit.timeit(
-					stmt="subprocess.check_call(PROGRAM, stdin=file_in, stdout=subprocess.DEVNULL,\
-					stderr=subprocess.DEVNULL, shell=False)",
-					setup="import subprocess; import os; PROGRAM='" + Options.program
-					+ "'; file_in = open( '" + test_in + "' , 'r');",
+					setup="import subprocess;\
+					import os;\
+					PROGRAM='" + Options.program + "';\
+					file_in = open( '" + test_in + "' , 'r');",
+					stmt="subprocess.check_call(\
+					PROGRAM,\
+					stdin=file_in,\
+					stdout=subprocess.DEVNULL,\
+					stderr=subprocess.DEVNULL,\
+					shell=False\
+					)",
 					number=1
 				)
 			except subprocess.CalledProcessError:
@@ -440,15 +460,16 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 		if process.returncode != 0:
 			results.add_error()
 
-			print_test_result(test_name, 3, time, distance=print_distance)
+			print_test_result(test_name, Result.runtime_error, time, name_max_length=name_max_length)
 		else:
 			try:
 				with open(test_out, "rt") as file_answer:
 					file_out.seek(0)
+
 					if file_answer.read().strip() == file_out.read().strip():
 						results.add_ok()
 
-						print_test_result(test_name, 0, time, distance=print_distance)
+						print_test_result(test_name, Result.ok, time, name_max_length=name_max_length)
 					else:
 						results.add_wrong()
 
@@ -463,11 +484,11 @@ def run_test(test_name, test_in, test_out, results, print_distance=0):
 							+ "  |  " \
 							+ make_prefix(answer.strip(), 25)
 
-						print_test_result(test_name, 1, time, comparison, distance=print_distance)
+						print_test_result(test_name, Result.wrong_answer, time, comparison, name_max_length=name_max_length)
 			except OSError:
 				results.add_completed()
 
-				print_test_result(test_name, 2, time, distance=print_distance)
+				print_test_result(test_name, Result.completed, time, name_max_length=name_max_length)
 
 
 def run_tests():
@@ -477,7 +498,8 @@ def run_tests():
 	if Options.tests_list:
 		for file in os.listdir(Options.tests_folder):
 			for name in Options.tests_list:
-				if file.lower().endswith(".in") and name == os.path.splitext(file)[0]:
+				if name not in Options.skip_tests_list and file.lower().endswith(".in") \
+						and name == os.path.splitext(file)[0]:
 					file = os.path.join(Options.tests_folder, file)
 					tests[name] = (file, "")
 
@@ -492,8 +514,9 @@ def run_tests():
 		for file in os.listdir(Options.tests_folder):
 			if file.lower().endswith(".in"):
 				name = os.path.splitext(file)[0]
-				file_in = os.path.join(Options.tests_folder, file)
-				tests[name] = (file_in, "")
+				if name not in Options.skip_tests_list:
+					file_in = os.path.join(Options.tests_folder, file)
+					tests[name] = (file_in, "")
 
 		for file in os.listdir(Options.tests_folder):
 			if file.lower().endswith(".out"):
@@ -503,9 +526,9 @@ def run_tests():
 					file_out = os.path.join(Options.tests_folder, file)
 					tests[name] = (test[0], file_out)
 
-	max_name_length = 0
+	name_max_length = 0
 	for (test_name, test_files) in tests.items():
-		max_name_length = max(max_name_length, len(test_name))
+		name_max_length = max(name_max_length, len(test_name))
 
 	i = 1
 	for (test_name, test_files) in sorted(tests.items()):
@@ -514,7 +537,7 @@ def run_tests():
 			+ _("of") + " " + Colors.yellow + str(len(tests)) + Colors.reset + ") "
 			+ Colors.test_name + test_name + Colors.reset
 		)
-		run_test(test_name, test_files[0], test_files[1], results, print_distance=(max_name_length - len(test_name)))
+		run_test(test_name, test_files[0], test_files[1], results, name_max_length=name_max_length)
 		i += 1
 
 	StatusLine.clear()
@@ -537,7 +560,8 @@ if __name__ == "__main__":
 	# 3.2 - PEP 389, module argparse
 	# 3.3 - PEP 3151, OSError and IOError means the same
 	# 3.3 - subprocess, new constant DEVNULL
-	minimum_version = (3, 3)
+	# 3.4 - PEP 435, Enum type
+	minimum_version = (3, 4)
 	if sys.version_info >= minimum_version:
 		try:
 			main()
