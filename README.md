@@ -109,7 +109,3 @@ If you want to update script:
 
     program-tester-update
 
-## TODO
-- [ ] measure memory used by program
-- [ ] do not run program second time to measure time
-
