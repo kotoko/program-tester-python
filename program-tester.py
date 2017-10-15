@@ -35,7 +35,7 @@ import textwrap
 import timeit
 
 
-__version__ = "0.12"
+__version__ = "0.13"
 app = "program-tester"
 
 
@@ -181,7 +181,7 @@ def check_terminal():
 
 def read_arguments():
 	parser = argparse.ArgumentParser(
-		__file__,
+		prog=os.path.basename(__file__),
 		add_help=False,
 		formatter_class=MultilineFormatter,
 		description=_("Program tester. Script runs program on multiple tests and checks \
@@ -222,6 +222,7 @@ def read_arguments():
 
 	parser.add_argument(
 		"--skip",
+		metavar="TEST",
 		type=str,
 		action="append",
 		help=_("test's name without suffix .in; skip target test; \
