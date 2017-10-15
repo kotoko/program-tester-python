@@ -181,7 +181,7 @@ def check_terminal():
 
 def read_arguments():
 	parser = argparse.ArgumentParser(
-		__file__,
+		prog=os.path.basename(__file__),
 		add_help=False,
 		formatter_class=MultilineFormatter,
 		description=_("Program tester. Script runs program on multiple tests and checks \
