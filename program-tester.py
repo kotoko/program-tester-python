@@ -222,6 +222,7 @@ def read_arguments():
 
 	parser.add_argument(
 		"--skip",
+		metavar="TEST",
 		type=str,
 		action="append",
 		help=_("test's name without suffix .in; skip target test; \
